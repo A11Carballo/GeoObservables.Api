@@ -3,7 +3,27 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32516.85
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoObservables.Api", "GeoObservables.Api\GeoObservables.Api.csproj", "{270BA235-7E03-44F0-9612-A393318B3311}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeoObservables.Api", "GeoObservables.Api\GeoObservables.Api.csproj", "{270BA235-7E03-44F0-9612-A393318B3311}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 Layers", "1 Layers", "{1784B130-9C22-4542-9109-56E0D45ECADA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.1 Distribuited Services", "1.1 Distribuited Services", "{31E8436D-74CB-4EE2-A23C-853BE2011313}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.2 Aplication", "1.2 Aplication", "{81994CEA-B4FF-4247-AC38-E83CFC93163E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoObservables.Api.Aplication", "GeoObservables.Api.Aplication\GeoObservables.Api.Aplication.csproj", "{D01D6D8A-FB2D-46F0-B435-76FDB951BE53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoObservables.Api.Aplication.Contracts", "GeoObservables.Api.Aplication.Contracts\GeoObservables.Api.Aplication.Contracts.csproj", "{993471F2-86E2-46FF-98EF-C992AA428C4B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.3 Business", "1.3 Business", "{2CE78208-97DF-4B61-A662-4ACD3B56C893}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoObservables.Api.Business", "GeoObservables.Api.Business\GeoObservables.Api.Business.csproj", "{5F948B85-4BF5-47A7-B7C9-8CCE4DCF6572}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.4 Dataaccess", "1.4 Dataaccess", "{473957B3-A7E3-43BB-85AB-8267B57BB726}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoObservables.Api.DataAccess", "GeoObservables.Api.DataAccess\GeoObservables.Api.DataAccess.csproj", "{B82CFD8C-C1F0-4239-88EE-84A4C12EDCC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoObservables.Api.DataAccess.Contracts", "GeoObservables.Api.DataAccess.Contracts\GeoObservables.Api.DataAccess.Contracts.csproj", "{8EE94684-C988-45EA-A0B3-294F73282878}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +35,41 @@ Global
 		{270BA235-7E03-44F0-9612-A393318B3311}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{270BA235-7E03-44F0-9612-A393318B3311}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{270BA235-7E03-44F0-9612-A393318B3311}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D01D6D8A-FB2D-46F0-B435-76FDB951BE53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D01D6D8A-FB2D-46F0-B435-76FDB951BE53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D01D6D8A-FB2D-46F0-B435-76FDB951BE53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D01D6D8A-FB2D-46F0-B435-76FDB951BE53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{993471F2-86E2-46FF-98EF-C992AA428C4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{993471F2-86E2-46FF-98EF-C992AA428C4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{993471F2-86E2-46FF-98EF-C992AA428C4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{993471F2-86E2-46FF-98EF-C992AA428C4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F948B85-4BF5-47A7-B7C9-8CCE4DCF6572}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F948B85-4BF5-47A7-B7C9-8CCE4DCF6572}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F948B85-4BF5-47A7-B7C9-8CCE4DCF6572}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F948B85-4BF5-47A7-B7C9-8CCE4DCF6572}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B82CFD8C-C1F0-4239-88EE-84A4C12EDCC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B82CFD8C-C1F0-4239-88EE-84A4C12EDCC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B82CFD8C-C1F0-4239-88EE-84A4C12EDCC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B82CFD8C-C1F0-4239-88EE-84A4C12EDCC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8EE94684-C988-45EA-A0B3-294F73282878}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8EE94684-C988-45EA-A0B3-294F73282878}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8EE94684-C988-45EA-A0B3-294F73282878}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8EE94684-C988-45EA-A0B3-294F73282878}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{270BA235-7E03-44F0-9612-A393318B3311} = {31E8436D-74CB-4EE2-A23C-853BE2011313}
+		{31E8436D-74CB-4EE2-A23C-853BE2011313} = {1784B130-9C22-4542-9109-56E0D45ECADA}
+		{81994CEA-B4FF-4247-AC38-E83CFC93163E} = {1784B130-9C22-4542-9109-56E0D45ECADA}
+		{D01D6D8A-FB2D-46F0-B435-76FDB951BE53} = {81994CEA-B4FF-4247-AC38-E83CFC93163E}
+		{993471F2-86E2-46FF-98EF-C992AA428C4B} = {81994CEA-B4FF-4247-AC38-E83CFC93163E}
+		{2CE78208-97DF-4B61-A662-4ACD3B56C893} = {1784B130-9C22-4542-9109-56E0D45ECADA}
+		{5F948B85-4BF5-47A7-B7C9-8CCE4DCF6572} = {2CE78208-97DF-4B61-A662-4ACD3B56C893}
+		{473957B3-A7E3-43BB-85AB-8267B57BB726} = {1784B130-9C22-4542-9109-56E0D45ECADA}
+		{B82CFD8C-C1F0-4239-88EE-84A4C12EDCC7} = {473957B3-A7E3-43BB-85AB-8267B57BB726}
+		{8EE94684-C988-45EA-A0B3-294F73282878} = {473957B3-A7E3-43BB-85AB-8267B57BB726}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {11D7C1C5-A8C5-4176-BE2A-520618D252FA}
