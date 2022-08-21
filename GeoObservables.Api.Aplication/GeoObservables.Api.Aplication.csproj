@@ -8,7 +8,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GeoObservables.Api.Aplication.Contracts\GeoObservables.Api.Aplication.Contracts.csproj" />
+    <ProjectReference Include="..\GeoObservables.Api.Business\GeoObservables.Api.Business.csproj" />
     <ProjectReference Include="..\GeoObservables.Api.DataAccess.Contracts\GeoObservables.Api.DataAccess.Contracts.csproj" />
+    <ProjectReference Include="..\GeoObservables.Api.DataAccess\GeoObservables.Api.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>

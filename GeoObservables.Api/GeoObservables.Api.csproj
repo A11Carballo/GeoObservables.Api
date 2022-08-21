@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GeoObservables.Api.CrosssCutting\GeoObservables.Api.CrosssCutting.csproj" />
     <ProjectReference Include="..\GeoObservables.Api.DataAccess\GeoObservables.Api.DataAccess.csproj" />
   </ItemGroup>
 

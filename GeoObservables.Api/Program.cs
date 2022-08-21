@@ -1,4 +1,6 @@
+using GeoObservables.Api.CrosssCutting.Register;
 using GeoObservables.Api.DataAccess;
+using GeoObservables.Api.DataAccess.Contracts;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,7 +15,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddScoped<IGeoObservablesDBContext, GeoObservablesDBContext>();
+
 builder.Services.AddDbContext<GeoObservablesDBContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+IoCRegister.AddRegistration(builder.Services);
 
 var app = builder.Build();
 
