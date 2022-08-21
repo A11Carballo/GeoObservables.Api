@@ -18,5 +18,6 @@ namespace GeoObservables.Api.DataAccess.Contracts.Entities
         public string Description { get; set; }
         public bool Active { get; set; }
         public virtual RolesEntity Roles { get; set; }
+        public virtual ICollection<HFlowdataEntity> HFlowdata { get; set; }
     }
 }

@@ -10,5 +10,6 @@ namespace GeoObservables.Api.DataAccess.Contracts.Entities
     {
         public int Id { get; set; }
         public string Role { get; set; }
+        public virtual ICollection<UsersEntity> Users { get; set; }
     }
 }

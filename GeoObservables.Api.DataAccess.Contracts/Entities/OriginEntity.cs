@@ -11,5 +11,6 @@ namespace GeoObservables.Api.DataAccess.Contracts.Entities
         public int Id { get; set; }
         public String OriginInfo { get; set; }
         public String Description { get; set; }
+        public virtual ICollection<HFlowdataEntity> HFlowdata { get; set; }
     }
 }

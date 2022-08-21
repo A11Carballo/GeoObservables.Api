@@ -13,6 +13,7 @@ namespace GeoObservables.Api.DataAccess.Contracts.Entities
         public double Lat { get; set; }
         public double Height { get; set; }
         public double Hflow { get; set; }
+        public int idOrigin { get; set; }
         public string Description { get; set; }
         public int Datacreated { get; set; }
         public int Datamodified { get; set; }
