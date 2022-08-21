@@ -18,4 +18,8 @@
     <Folder Include="Mappers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GeoObservables.Api.DataAccess\GeoObservables.Api.DataAccess.csproj" />
+  </ItemGroup>
+
 </Project>
