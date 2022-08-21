@@ -7,7 +7,7 @@ using GeoObservables.Api.DataAccess.Contracts.Entities;
 
 namespace GeoObservables.Api.DataAccess.Contracts.Repositories
 {
-    public interface IHFlowdataRepository : IRepository<UsersEntity>
+    public interface IHFlowdataRepository : IRepository<HFlowdataEntity>
     {
     }
 }
