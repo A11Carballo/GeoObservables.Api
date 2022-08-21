@@ -22,6 +22,12 @@ namespace GeoObservables.Api.DataAccess.EntityConfig
             entityBuilder.HasOne(x => x.User).WithMany(x => x.HFlowdata).HasForeignKey(x => x.idUserCreate);
 
             entityBuilder.HasOne(x => x.Origin).WithMany(x => x.HFlowdata).HasForeignKey(x => x.idOrigin);
+
+            //entityBuilder.HasKey(x => new { x.idUserCreate, x.idOrigin });
+
+            entityBuilder.Property(x => x.idUserCreate).IsRequired();
+
+            entityBuilder.Property(x => x.idOrigin).IsRequired();
         }
     }
 }
