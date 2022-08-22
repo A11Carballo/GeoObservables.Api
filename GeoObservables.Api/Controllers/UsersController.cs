@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace GeoObservables.Api.Controllers
 {
     [ApiController]
-    [Produces("application/json")]
     [Route("api/[controller]")]
     public class UsersController : Controller
     {
