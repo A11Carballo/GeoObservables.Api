@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GeoObservables.Api.Business.Models
+namespace GeoObservables.Api.Business.Models { 
     public class UsersModel
     {
         public int Id { get; set; }
