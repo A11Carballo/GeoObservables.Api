@@ -31,5 +31,12 @@ namespace GeoObservables.Api.Aplication.Services
 
             return UsersMapper.Map(addUser);
         }
+
+       /* public async Task<IEnumerable<UsersModel>> GetAllUsers()
+        {
+            var addUser = await _usersRepository.GetAll();
+
+            return UsersMapper.Map(addUser);
+        }*/
     }
 }
