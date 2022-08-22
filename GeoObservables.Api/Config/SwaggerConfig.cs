@@ -13,11 +13,11 @@ namespace GeoObservables.Api.Config
 
         public static IServiceCollection AddRegistration(this IServiceCollection services)
         {
-            var basePath = System.AppDomain.CurrentDomain.BaseDirectory;
+            var basePath = AppDomain.CurrentDomain.BaseDirectory;
             var xmlPath = Path.Combine(basePath, "GeoObservables.Api.xml");
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+                c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "GeoObservables API V1",
                     Version = "v1",
