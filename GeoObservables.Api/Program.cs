@@ -3,7 +3,6 @@ using GeoObservables.Api.CrosssCutting.Register;
 using GeoObservables.Api.DataAccess;
 using GeoObservables.Api.DataAccess.Contracts;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
