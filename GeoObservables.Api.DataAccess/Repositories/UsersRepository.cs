@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GeoObservables.Api.DataAccess.Contracts;
+﻿using GeoObservables.Api.DataAccess.Contracts;
 using GeoObservables.Api.DataAccess.Contracts.Entities;
 using GeoObservables.Api.DataAccess.Contracts.Repositories;
 using Microsoft.EntityFrameworkCore;
+
 
 namespace GeoObservables.Api.DataAccess.Repositories
 {
@@ -52,8 +48,7 @@ namespace GeoObservables.Api.DataAccess.Repositories
         public async Task<UsersEntity> Get(int idEntity) => await _geoObservablesDBContext.Users.Include(x => x.Roles).FirstOrDefaultAsync(x => x.Id == idEntity);
 
 
-        public async Task<IEnumerable<UsersEntity>> GetAll() => await _geoObservablesDBContext.Users.ToListAsync();
-
+        public async Task<IEnumerable<UsersEntity>> GetAll() => await _geoObservablesDBContext.Set<UsersEntity>().ToListAsync();
 
         public async Task<UsersEntity> Update(int id, UsersEntity entity)
         {

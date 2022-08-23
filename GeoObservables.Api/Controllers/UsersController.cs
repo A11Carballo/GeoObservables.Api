@@ -1,4 +1,6 @@
 ﻿using GeoObservables.Api.Aplication.Contracts.Services;
+using GeoObservables.Api.Mappers;
+using GeoObservables.Api.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GeoObservables.Api.Controllers
@@ -19,28 +21,26 @@ namespace GeoObservables.Api.Controllers
 
         //CRUD
 
-        // GET api/model/5
+        /// <summary>
+        /// GET api/model
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Produces("application/json", Type = typeof(UsersViewModel))]
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
-        {
-            var entity = await _usersServices.GetUser(id);
+        public async Task<UsersViewModel> Get(int id) =>
+             UsersMapper.Map(await _usersServices.GetUser(id));
 
-            return Ok(entity);
-        } //=> await _usersServices.GetUser(id);
+        /// <summary>
+        /// POST api/model
+        /// </summary>
+        /// <param name="users"></param>
+        /// <returns></returns>
+        [Produces("application/json", Type = typeof(UsersViewModel))]
+        [HttpPost]
+        public async Task<UsersViewModel> AddUsers([FromBody] UsersViewModel users) => 
+            UsersMapper.Map(await _usersServices.AddUser(UsersMapper.Map(users)));
 
-        //POST api/values
-     /*   [HttpPost]
-        public async Task<IActionResult> Post([FromBody] ModelRequest request)
-        {
-            var entity = new ModelViewModel
-            {
-                EsCliente = true,
-                Nombre = request.Nombre
-            };
-            await _modelService.AddModel(ModelModelMapper.Map(entity));
-
-            return Ok();
-        }*/
 
     }
 }

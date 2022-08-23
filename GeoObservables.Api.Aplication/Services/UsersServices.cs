@@ -18,11 +18,11 @@ namespace GeoObservables.Api.Aplication.Services
             _usersRepository = usersRepository;
         }
 
-        public async Task<string> GetUser(int idUser)
+        public async Task<UsersModel> GetUser(int idUser)
         {
             var User = await _usersRepository.Get(idUser);
 
-            return User.User;
+            return UsersMapper.Map(User);
         }
 
         public async Task<UsersModel> AddUser(UsersModel user)
@@ -32,11 +32,11 @@ namespace GeoObservables.Api.Aplication.Services
             return UsersMapper.Map(addUser);
         }
 
-       /* public async Task<IEnumerable<UsersModel>> GetAllUsers()
+       public async Task<IEnumerable<UsersModel>> GetAllUsers()
         {
-            var addUser = await _usersRepository.GetAll();
+            var allUsers = await _usersRepository.GetAll();
 
-            return UsersMapper.Map(addUser);
-        }*/
+            return allUsers.Select(x => UsersMapper.Map(x));
+        }
     }
 }

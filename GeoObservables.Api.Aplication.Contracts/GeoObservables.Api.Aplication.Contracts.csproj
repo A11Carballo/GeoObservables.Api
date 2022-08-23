@@ -11,4 +11,8 @@
     <Folder Include="Models\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GeoObservables.Api.Business\GeoObservables.Api.Business.csproj" />
+  </ItemGroup>
+
 </Project>
