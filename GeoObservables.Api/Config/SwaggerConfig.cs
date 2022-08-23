@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 
 namespace GeoObservables.Api.Config
 {
@@ -13,8 +14,9 @@ namespace GeoObservables.Api.Config
 
         public static IServiceCollection AddRegistration(this IServiceCollection services)
         {
+            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
             var basePath = AppDomain.CurrentDomain.BaseDirectory;
-            var xmlPath = Path.Combine(basePath, "GeoObservables.Api.xml");
+            var xmlPath = Path.Combine(basePath, xmlFile);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
