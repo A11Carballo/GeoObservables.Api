@@ -15,8 +15,11 @@ namespace GeoObservables.Api.Config
         public static IServiceCollection AddRegistration(this IServiceCollection services)
         {
             var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+
             var basePath = AppDomain.CurrentDomain.BaseDirectory;
+
             var xmlPath = Path.Combine(basePath, xmlFile);
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
@@ -37,7 +40,9 @@ namespace GeoObservables.Api.Config
                     }
                 });
                 c.IncludeXmlComments(xmlPath);
+
                 c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
@@ -67,6 +72,7 @@ namespace GeoObservables.Api.Config
                     }
                 });
             });
+
             return services;
         }
 
