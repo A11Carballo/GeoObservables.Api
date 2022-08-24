@@ -11,7 +11,6 @@ namespace GeoObservables.Api.Config
 {
     public static class SwaggerConfig
     {
-
         public static IServiceCollection AddRegistration(this IServiceCollection services)
         {
             var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
