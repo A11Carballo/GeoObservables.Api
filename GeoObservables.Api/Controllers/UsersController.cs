@@ -27,6 +27,11 @@ namespace GeoObservables.Api.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [Produces("application/json", Type = typeof(UsersViewModel))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UsersViewModel))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(UsersViewModel))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(UsersViewModel))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(UsersViewModel))]
+        [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(UsersViewModel))]
         [HttpGet("{id}")]
         public async Task<UsersViewModel> Get(int id) =>
              UsersMapper.Map(await _usersServices.GetUser(id));
@@ -37,6 +42,11 @@ namespace GeoObservables.Api.Controllers
         /// <param name="users"></param>
         /// <returns></returns>
         [Produces("application/json", Type = typeof(UsersViewModel))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UsersViewModel))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(UsersViewModel))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(UsersViewModel))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(UsersViewModel))]
+        [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(UsersViewModel))]
         [HttpPost]
         public async Task<UsersViewModel> AddUsers([FromBody] UsersViewModel users) => 
             UsersMapper.Map(await _usersServices.AddUser(UsersMapper.Map(users)));

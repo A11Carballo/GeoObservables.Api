@@ -27,16 +27,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.OAuthClientId("swagger-ui");
-        c.OAuthClientSecret("swagger-ui-secret");
-        c.OAuthRealm("swagger-ui-realm");
-        c.OAuthAppName("Swagger UI");
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "GeoObservable API V1");
-
-    });
+    SwaggerConfig.AddRegistration(app, builder);
 }
 
 app.UseHttpsRedirection();

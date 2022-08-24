@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
@@ -50,26 +51,40 @@ namespace GeoObservables.Api.Config
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement()
                 {
                     {
-                      new OpenApiSecurityScheme
-                      {
-                        Reference = new OpenApiReference
-                          {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "Bearer"
-                          },
-                          Scheme = "oauth2",
-                          Name = "Bearer",
-                          In = ParameterLocation.Header,
+                        new OpenApiSecurityScheme
+                        {
+                          Reference = new OpenApiReference
+                            {
+                              Type = ReferenceType.SecurityScheme,
+                              Id = "Bearer"
+                            },
+                            Scheme = "oauth2",
+                            Name = "Bearer",
+                            In = ParameterLocation.Header,
 
-                        },
-                        new List<string>()
+                          },
+                         new List<string>()
                     }
                 });
-
             });
-
             return services;
+        }
 
+        public static IApplicationBuilder AddRegistration(this IApplicationBuilder app, WebApplicationBuilder builder)
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.OAuthClientId("swagger-ui");
+                c.OAuthClientSecret("swagger-ui-secret");
+                c.OAuthRealm("swagger-ui-realm");
+                c.OAuthAppName("Swagger UI");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "GeoObservable API V1");
+                c.InjectStylesheet("/swagger/ui/custom.css");
+            });
+            app.UseStaticFiles();
+
+            return app;
         }
     }
 }
