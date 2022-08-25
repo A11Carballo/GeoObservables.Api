@@ -52,10 +52,19 @@ namespace GeoObservables.Api.DataAccess.Repositories
         public async Task<RolesEntity> Get(int idEntity) => await _geoObservablesDBContext.Roles.FirstOrDefaultAsync(x => x.Id == idEntity);
 
 
-        public async Task<IEnumerable<RolesEntity>> GetAll() => await _geoObservablesDBContext.Roles.ToListAsync();
+        public async Task<IEnumerable<RolesEntity>> GetAll() => await _geoObservablesDBContext.Set<RolesEntity>().ToListAsync();
 
 
         public async Task<RolesEntity> Update(int id, RolesEntity entity)
+        {
+            var updateEntity = _geoObservablesDBContext.Roles.Update(entity);
+
+            await _geoObservablesDBContext.SaveChangesAsync();
+
+            return updateEntity.Entity;
+        }
+
+        public async Task<RolesEntity> Update(RolesEntity entity)
         {
             var updateEntity = _geoObservablesDBContext.Roles.Update(entity);
 

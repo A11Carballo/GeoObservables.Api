@@ -63,5 +63,14 @@ namespace GeoObservables.Api.DataAccess.Repositories
 
             return updateEntity.Entity;
         }
+
+        public async Task<HFlowdataEntity> Update(HFlowdataEntity entity)
+        {
+            var updateEntity = _geoObservablesDBContext.HFlowdata.Update(entity);
+
+            await _geoObservablesDBContext.SaveChangesAsync();
+
+            return updateEntity.Entity;
+        }
     }
 }

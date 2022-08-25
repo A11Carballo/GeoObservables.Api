@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GeoObservables.Api.Aplication.Contracts.Services;
+using GeoObservables.Api.Business.Models;
 using GeoObservables.Api.DataAccess.Contracts.Repositories;
+using GeoObservables.Api.DataAccess.Mappers;
 
 namespace GeoObservables.Api.Aplication.Services
 {
@@ -16,11 +18,38 @@ namespace GeoObservables.Api.Aplication.Services
             _rolesRepository = rolesRepository;
         }
 
-        public async Task<string> GetRol(int idRol)
+        public async Task<RolesModel> AddRol(RolesModel rol)
+        {
+            var addRol = await _rolesRepository.Add(RolesMapper.Map(rol));
+
+            return RolesMapper.Map(addRol);
+        }
+
+        public async Task<bool> DeleteRol(int idRol)
+        {
+            var isDelete = await _rolesRepository.DeleteAsyncBool(idRol);
+
+            return isDelete;
+        }
+
+        public async Task<IEnumerable<RolesModel>> GetAllRoles()
+        {
+            var allRoles = await _rolesRepository.GetAll();
+
+            return allRoles.Select(RolesMapper.Map);
+        }
+
+        public async Task<RolesModel> GetRol(int idRol)
         {
             var role = await _rolesRepository.Get(idRol);
 
-            return role.Role;
+            return RolesMapper.Map(role);
         }
+
+        public async Task<RolesModel> UpdateRol(RolesModel rol)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

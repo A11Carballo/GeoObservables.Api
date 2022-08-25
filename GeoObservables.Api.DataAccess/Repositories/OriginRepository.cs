@@ -63,5 +63,14 @@ namespace GeoObservables.Api.DataAccess.Repositories
 
             return updateEntity.Entity;
         }
+
+        public async Task<OriginEntity> Update(OriginEntity entity)
+        {
+            var updateEntity = _geoObservablesDBContext.Origin.Update(entity);
+
+            await _geoObservablesDBContext.SaveChangesAsync();
+
+            return updateEntity.Entity;
+        }
     }
 }
