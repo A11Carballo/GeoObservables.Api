@@ -24,7 +24,7 @@ namespace GeoObservables.Api.Controllers
         /// <summary>
         /// GET User
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="idUser"></param>
         /// <returns></returns>
         [Produces("application/json", Type = typeof(UsersViewModel))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UsersViewModel))]
@@ -32,9 +32,9 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(UsersViewModel))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(UsersViewModel))]
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(UsersViewModel))]
-        [HttpGet("{id}")]
-        public async Task<UsersViewModel> Get(int id) =>
-             UsersMapper.Map(await _usersServices.GetUser(id));
+        [HttpGet("{idUser}")]
+        public async Task<UsersViewModel> Get(int idUser) =>
+             UsersMapper.Map(await _usersServices.GetUser(idUser));
 
         /// <summary>
         /// POST User
@@ -54,7 +54,7 @@ namespace GeoObservables.Api.Controllers
         /// <summary>
         /// Delete User
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="idUser"></param>
         /// <returns></returns>
         [Produces("application/json", Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
@@ -63,7 +63,7 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(bool))]
         [HttpDelete("{id}")]
-        public async Task<bool> DeleteUser(int id) => await _usersServices.DeleteUser(id);
+        public async Task<bool> DeleteUser(int idUser) => await _usersServices.DeleteUser(idUser);
 
         /// <summary>
         /// PUT User

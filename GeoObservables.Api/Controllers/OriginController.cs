@@ -24,7 +24,7 @@ namespace GeoObservables.Api.Controllers
         /// <summary>
         /// GET Origin
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="idOri"></param>
         /// <returns></returns>
         [Produces("application/json", Type = typeof(OriginViewModel))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OriginViewModel))]
@@ -32,14 +32,14 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(OriginViewModel))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(OriginViewModel))]
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(OriginViewModel))]
-        [HttpGet("{id}")]
-        public async Task<OriginViewModel> Get(int id) =>
-             OriginMapper.Map(await _originServices.GetOrigin(id));
+        [HttpGet("{idOri}")]
+        public async Task<OriginViewModel> Get(int idOri) =>
+             OriginMapper.Map(await _originServices.GetOrigin(idOri));
 
         /// <summary>
         /// POST Origin
         /// </summary>
-        /// <param name="roles"></param>
+        /// <param name="Origin"></param>
         /// <returns></returns>
         [Produces("application/json", Type = typeof(OriginViewModel))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OriginViewModel))]
@@ -54,7 +54,7 @@ namespace GeoObservables.Api.Controllers
         /// <summary>
         /// Delete Origin
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="idOri"></param>
         /// <returns></returns>
         [Produces("application/json", Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
@@ -62,8 +62,8 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(bool))]
-        [HttpDelete("{id}")]
-        public async Task<bool> DeleteRol(int id) => await _originServices.DeleteOrigin(id);
+        [HttpDelete("{idOri}")]
+        public async Task<bool> DeleteRol(int idOri) => await _originServices.DeleteOrigin(idOri);
 
         /// <summary>
         /// PUT Origin

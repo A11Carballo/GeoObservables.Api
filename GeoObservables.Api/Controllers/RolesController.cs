@@ -24,7 +24,7 @@ namespace GeoObservables.Api.Controllers
         /// <summary>
         /// GET Rol
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="idRol"></param>
         /// <returns></returns>
         [Produces("application/json", Type = typeof(RolesViewModel))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RolesViewModel))]
@@ -32,9 +32,9 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(RolesViewModel))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(RolesViewModel))]
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(RolesViewModel))]
-        [HttpGet("{id}")]
-        public async Task<RolesViewModel> Get(int id) =>
-             RolesMapper.Map(await _rolesServices.GetRol(id));
+        [HttpGet("{idRol}")]
+        public async Task<RolesViewModel> Get(int idRol) =>
+             RolesMapper.Map(await _rolesServices.GetRol(idRol));
 
         /// <summary>
         /// POST Rol
@@ -54,7 +54,7 @@ namespace GeoObservables.Api.Controllers
         /// <summary>
         /// Delete Rol
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="idRol"></param>
         /// <returns></returns>
         [Produces("application/json", Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
@@ -62,8 +62,8 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(bool))]
-        [HttpDelete("{id}")]
-        public async Task<bool> DeleteRol(int id) => await _rolesServices.DeleteRol(id);
+        [HttpDelete("{idRol}")]
+        public async Task<bool> DeleteRol(int idRol) => await _rolesServices.DeleteRol(idRol);
 
         /// <summary>
         /// PUT Rol
