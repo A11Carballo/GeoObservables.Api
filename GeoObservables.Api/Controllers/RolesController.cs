@@ -48,7 +48,7 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(RolesViewModel))]
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(RolesViewModel))]
         [HttpPost]
-        public async Task<RolesViewModel> AddUsers([FromBody] RolesViewModel rol) =>
+        public async Task<RolesViewModel> AddRol([FromBody] RolesViewModel rol) =>
             RolesMapper.Map(await _rolesServices.AddRol(RolesMapper.Map(rol)));
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace GeoObservables.Api.Controllers
         public async Task<bool> DeleteRol(int id) => await _rolesServices.DeleteRol(id);
 
         /// <summary>
-        /// PUT User
+        /// PUT Rol
         /// </summary>
         /// <param name="roles"></param>
         /// <returns></returns>

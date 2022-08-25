@@ -48,7 +48,9 @@ namespace GeoObservables.Api.Aplication.Services
 
         public async Task<RolesModel> UpdateRol(RolesModel rol)
         {
-            throw new NotImplementedException();
+            var updRol = await _rolesRepository.Update(RolesMapper.Map(rol));
+
+            return (RolesMapper.Map(updRol));
         }
 
     }
