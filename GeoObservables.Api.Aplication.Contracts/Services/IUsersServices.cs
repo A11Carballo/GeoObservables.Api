@@ -12,5 +12,7 @@ namespace GeoObservables.Api.Aplication.Contracts.Services
         Task<UsersModel> GetUser(int idUser);
         Task<UsersModel> AddUser(UsersModel user);
         Task<IEnumerable<UsersModel>> GetAllUsers();
+        Task<bool> DeleteUser(int idUser);
+        Task<UsersModel> UpdateUser(UsersModel user);
     }
 }

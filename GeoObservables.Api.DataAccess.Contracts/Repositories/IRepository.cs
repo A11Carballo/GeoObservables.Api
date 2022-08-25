@@ -20,6 +20,8 @@ namespace GeoObservables.Api.DataAccess.Contracts.Repositories
 
         Task<T> Update(int id, T element);
 
+        Task<T> Update(T element);
+
         Task<T> Add(T element);
     }
 }

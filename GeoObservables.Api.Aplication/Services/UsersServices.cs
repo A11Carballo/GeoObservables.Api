@@ -36,7 +36,21 @@ namespace GeoObservables.Api.Aplication.Services
         {
             var allUsers = await _usersRepository.GetAll();
 
-            return allUsers.Select(x => UsersMapper.Map(x));
+            return allUsers.Select(UsersMapper.Map);
+        }
+
+        public async Task<UsersModel> UpdateUser(UsersModel user)
+        {
+            var updUser = await _usersRepository.Update(UsersMapper.Map(user));
+
+            return (UsersMapper.Map(updUser));
+        }
+
+        public async Task<bool> DeleteUser(int idUser)
+        {
+            var isDelete = await _usersRepository.DeleteAsyncBool(idUser);
+
+            return isDelete;
         }
     }
 }

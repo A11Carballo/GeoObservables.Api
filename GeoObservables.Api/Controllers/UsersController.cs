@@ -22,7 +22,7 @@ namespace GeoObservables.Api.Controllers
         //CRUD
 
         /// <summary>
-        /// GET api/model
+        /// GET User
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -37,7 +37,7 @@ namespace GeoObservables.Api.Controllers
              UsersMapper.Map(await _usersServices.GetUser(id));
 
         /// <summary>
-        /// POST api/model
+        /// POST User
         /// </summary>
         /// <param name="users"></param>
         /// <returns></returns>
@@ -51,6 +51,50 @@ namespace GeoObservables.Api.Controllers
         public async Task<UsersViewModel> AddUsers([FromBody] UsersViewModel users) => 
             UsersMapper.Map(await _usersServices.AddUser(UsersMapper.Map(users)));
 
+        /// <summary>
+        /// Delete User
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Produces("application/json", Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(bool))]
+        [HttpDelete("{id}")]
+        public async Task<bool> DeleteUser(int id) => await _usersServices.DeleteUser(id);
 
+        /// <summary>
+        /// PUT User
+        /// </summary>
+        /// <param name="users"></param>
+        /// <returns></returns>
+        [Produces("application/json", Type = typeof(UsersViewModel))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UsersViewModel))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(UsersViewModel))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(UsersViewModel))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(UsersViewModel))]
+        [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(UsersViewModel))]
+        [HttpPut]
+        public async Task<UsersViewModel> UpdateUsers([FromBody] UsersViewModel users) =>
+            UsersMapper.Map(await _usersServices.UpdateUser(UsersMapper.Map(users)));
+
+
+        /// <summary>
+        /// GET All Users
+        /// </summary>
+        /// <param></param>
+        /// <returns></returns>
+        [Produces("application/json", Type = typeof(List<UsersViewModel>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<UsersViewModel>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(List<UsersViewModel>))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(List<UsersViewModel>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(List<UsersViewModel>))]
+        [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(List<UsersViewModel>))]
+        [HttpGet]
+        public async Task<IActionResult> GetAllUsers() =>
+             Ok(await _usersServices.GetAllUsers());
     }
+
 }
