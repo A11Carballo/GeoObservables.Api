@@ -22,5 +22,6 @@ namespace GeoObservables.Api.Mappers
                 Role = dto.Role
             };
         }
+
     }
 }

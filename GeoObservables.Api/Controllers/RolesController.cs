@@ -9,11 +9,11 @@ namespace GeoObservables.Api.Controllers
     [Route("api/[controller]")]
     public class RolesController : Controller
     {
-        private readonly ILogger<RolesController> _logger;
+        private readonly Lazy<ILogger<RolesController>> _logger;
 
-        private readonly IRolesServices _rolesServices;
+        private readonly Lazy<IRolesServices> _rolesServices;
 
-        public RolesController(ILogger<RolesController> logger, IRolesServices rolesServices)
+        public RolesController(Lazy<ILogger<RolesController>> logger, Lazy<IRolesServices> rolesServices)
         {
             _logger = logger;
             _rolesServices = rolesServices;
@@ -34,7 +34,7 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(RolesViewModel))]
         [HttpGet("{idRol}")]
         public async Task<RolesViewModel> Get(int idRol) =>
-             RolesMapper.Map(await _rolesServices.GetRol(idRol));
+             RolesMapper.Map(await _rolesServices.Value.GetRol(idRol));
 
         /// <summary>
         /// POST Rol
@@ -49,7 +49,7 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(RolesViewModel))]
         [HttpPost]
         public async Task<RolesViewModel> AddRol([FromBody] RolesViewModel rol) =>
-            RolesMapper.Map(await _rolesServices.AddRol(RolesMapper.Map(rol)));
+            RolesMapper.Map(await _rolesServices.Value.AddRol(RolesMapper.Map(rol)));
 
         /// <summary>
         /// Delete Rol
@@ -63,7 +63,7 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(bool))]
         [HttpDelete("{idRol}")]
-        public async Task<bool> DeleteRol(int idRol) => await _rolesServices.DeleteRol(idRol);
+        public async Task<bool> DeleteRol(int idRol) => await _rolesServices.Value.DeleteRol(idRol);
 
         /// <summary>
         /// PUT Rol
@@ -78,7 +78,7 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(RolesViewModel))]
         [HttpPut]
         public async Task<RolesViewModel> UpdateRoles([FromBody] RolesViewModel rol) =>
-            RolesMapper.Map(await _rolesServices.UpdateRol(RolesMapper.Map(rol)));
+            RolesMapper.Map(await _rolesServices.Value.UpdateRol(RolesMapper.Map(rol)));
 
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(List<RolesViewModel>))]
         [HttpGet]
         public async Task<IActionResult> GetAlRoless() =>
-             Ok(await _rolesServices.GetAllRoles());
+             Ok(await _rolesServices.Value.GetAllRoles());
     }
 
 }
