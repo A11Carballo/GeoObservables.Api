@@ -9,11 +9,11 @@ namespace GeoObservables.Api.Controllers
     [Route("api/[controller]")]
     public class UsersController : Controller
     {
-        private readonly ILogger<UsersController> _logger;
+        private readonly Lazy<ILogger<UsersController>> _logger;
 
-        private readonly IUsersServices _usersServices;
+        private readonly Lazy<IUsersServices> _usersServices;
 
-        public UsersController(ILogger<UsersController> logger, IUsersServices usersServices)
+        public UsersController(Lazy<ILogger<UsersController>> logger, Lazy<IUsersServices> usersServices)
         {
             _logger = logger;
             _usersServices= usersServices;
@@ -34,7 +34,7 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(UsersViewModel))]
         [HttpGet("{idUser}")]
         public async Task<UsersViewModel> Get(int idUser) =>
-             UsersMapper.Map(await _usersServices.GetUser(idUser));
+             UsersMapper.Map(await _usersServices.Value.GetUser(idUser));
 
         /// <summary>
         /// POST User
@@ -49,7 +49,7 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(UsersViewModel))]
         [HttpPost]
         public async Task<UsersViewModel> AddUsers([FromBody] UsersViewModel users) => 
-            UsersMapper.Map(await _usersServices.AddUser(UsersMapper.Map(users)));
+            UsersMapper.Map(await _usersServices.Value.AddUser(UsersMapper.Map(users)));
 
         /// <summary>
         /// Delete User
@@ -63,7 +63,7 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(bool))]
         [HttpDelete("{id}")]
-        public async Task<bool> DeleteUser(int idUser) => await _usersServices.DeleteUser(idUser);
+        public async Task<bool> DeleteUser(int idUser) => await _usersServices.Value.DeleteUser(idUser);
 
         /// <summary>
         /// PUT User
@@ -78,7 +78,7 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(UsersViewModel))]
         [HttpPut]
         public async Task<UsersViewModel> UpdateUsers([FromBody] UsersViewModel users) =>
-            UsersMapper.Map(await _usersServices.UpdateUser(UsersMapper.Map(users)));
+            UsersMapper.Map(await _usersServices.Value.UpdateUser(UsersMapper.Map(users)));
 
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(List<UsersViewModel>))]
         [HttpGet]
         public async Task<IActionResult> GetAllUsers() =>
-             Ok(await _usersServices.GetAllUsers());
+             Ok(await _usersServices.Value.GetAllUsers());
     }
 
 }
