@@ -10,31 +10,31 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GeoObservables.Api.DataAccess.Repositories
 {
-    public class RolesRepository : Lazy<IRolesRepository>
+    public class RolesRepository : IRolesRepository
     {
-        private readonly Lazy<IGeoObservablesDBContext> _geoObservablesDBContext;
+        private readonly GeoObservablesDBContext _geoObservablesDBContext;
 
-        public RolesRepository(Lazy<IGeoObservablesDBContext> geoObservablesDBContext)
+        public RolesRepository(GeoObservablesDBContext geoObservablesDBContext)
         {
             _geoObservablesDBContext = geoObservablesDBContext;
         }
 
         public async Task<RolesEntity> Add(RolesEntity entity)
         {
-            await _geoObservablesDBContext.Value.Roles.AddAsync(entity);
+            await _geoObservablesDBContext.Roles.AddAsync(entity);
 
-            await _geoObservablesDBContext.Value.SaveChangesAsync();
+            await _geoObservablesDBContext.SaveChangesAsync();
 
             return entity;
         }
 
         public async Task<RolesEntity> DeleteAsync(int idEntity)
         {
-            var Entity = await _geoObservablesDBContext.Value.Roles.SingleAsync(x => x.Id == idEntity);
+            var Entity = await _geoObservablesDBContext.Roles.SingleAsync(x => x.Id == idEntity);
 
-            _geoObservablesDBContext.Value.Roles.Remove(Entity);
+            _geoObservablesDBContext.Remove(Entity);
 
-            await _geoObservablesDBContext.Value.SaveChangesAsync();
+            await _geoObservablesDBContext.SaveChangesAsync();
 
             return Entity;
         }
@@ -49,26 +49,26 @@ namespace GeoObservables.Api.DataAccess.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<RolesEntity> Get(int idEntity) => await _geoObservablesDBContext.Value.Roles.FirstOrDefaultAsync(x => x.Id == idEntity);
+        public async Task<RolesEntity> Get(int idEntity) => await _geoObservablesDBContext.Roles.FirstOrDefaultAsync(x => x.Id == idEntity);
 
 
-        public async Task<IEnumerable<RolesEntity>> GetAll() => await _geoObservablesDBContext.Value.Set<RolesEntity>().ToListAsync();
+        public async Task<IEnumerable<RolesEntity>> GetAll() => await _geoObservablesDBContext.Set<RolesEntity>().ToListAsync();
 
 
         public async Task<RolesEntity> Update(int id, RolesEntity entity)
         {
-            var updateEntity = _geoObservablesDBContext.Value.Roles.Update(entity);
+            var updateEntity = _geoObservablesDBContext.Roles.Update(entity);
 
-            await _geoObservablesDBContext.Value.SaveChangesAsync();
+            await _geoObservablesDBContext.SaveChangesAsync();
 
             return updateEntity.Entity;
         }
 
         public async Task<RolesEntity> Update(RolesEntity entity)
         {
-            var updateEntity = _geoObservablesDBContext.Value.Roles.Update(entity);
+            var updateEntity = _geoObservablesDBContext.Roles.Update(entity);
 
-            await _geoObservablesDBContext.Value.SaveChangesAsync();
+            await _geoObservablesDBContext.SaveChangesAsync();
 
             return updateEntity.Entity;
         }

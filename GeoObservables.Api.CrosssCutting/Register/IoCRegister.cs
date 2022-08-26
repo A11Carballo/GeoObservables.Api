@@ -26,9 +26,9 @@ namespace GeoObservables.Api.CrosssCutting.Register
         {
             services.AddTransient<IOriginServices, OriginServices>();
 
-            services.AddTransient<Lazy<IUsersServices, UsersServices>>();
+            services.AddTransient<IUsersServices, UsersServices>();
 
-            services.AddTransient< Lazy<IRolesServices, RolesServices>>();
+            services.AddTransient<IRolesServices, RolesServices>();
 
             services.AddTransient<IHFlowdataServices, HFlowdataServices> ();
 
@@ -39,9 +39,9 @@ namespace GeoObservables.Api.CrosssCutting.Register
         {
             services.AddTransient<IOriginRepository, OriginRepository>();
 
-            services.AddTransient<Lazy<IUsersRepository, UsersRepository>>();
+            services.AddTransient<IUsersRepository, UsersRepository>();
 
-            services.AddTransient<Lazy<IRolesRepository, RolesRepository>>();
+            services.AddTransient<IRolesRepository, RolesRepository>();
 
             services.AddTransient<IHFlowdataRepository, HFlowdataRepository>();
 

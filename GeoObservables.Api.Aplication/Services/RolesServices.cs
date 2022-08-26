@@ -5,45 +5,45 @@ using GeoObservables.Api.DataAccess.Mappers;
 
 namespace GeoObservables.Api.Aplication.Services
 {
-    public class RolesServices : Lazy<IRolesServices>
+    public class RolesServices : IRolesServices
     {
-        private readonly Lazy<IRolesRepository> _rolesRepository;
-        public RolesServices(Lazy<IRolesRepository> rolesRepository)
+        private readonly IRolesRepository _rolesRepository;
+        public RolesServices(IRolesRepository rolesRepository)
         {
             _rolesRepository = rolesRepository;
         }
 
         public async Task<RolesModel> AddRol(RolesModel rol)
         {
-            var addRol = await _rolesRepository.Value.Add(RolesMapper.Map(rol));
+            var addRol = await _rolesRepository.Add(RolesMapper.Map(rol));
 
             return RolesMapper.Map(addRol);
         }
 
         public async Task<bool> DeleteRol(int idRol)
         {
-            var isDelete = await _rolesRepository.Value.DeleteAsyncBool(idRol);
+            var isDelete = await _rolesRepository.DeleteAsyncBool(idRol);
 
             return isDelete;
         }
 
         public async Task<IEnumerable<RolesModel>> GetAllRoles()
         {
-            var allRoles = await _rolesRepository.Value.GetAll();
+            var allRoles = await _rolesRepository.GetAll();
 
             return allRoles.Select(RolesMapper.Map);
         }
 
         public async Task<RolesModel> GetRol(int idRol)
         {
-            var role = await _rolesRepository.Value.Get(idRol);
+            var role = await _rolesRepository.Get(idRol);
 
             return RolesMapper.Map(role);
         }
 
         public async Task<RolesModel> UpdateRol(RolesModel rol)
         {
-            var updRol = await _rolesRepository.Value.Update(RolesMapper.Map(rol));
+            var updRol = await _rolesRepository.Update(RolesMapper.Map(rol));
 
             return (RolesMapper.Map(updRol));
         }
