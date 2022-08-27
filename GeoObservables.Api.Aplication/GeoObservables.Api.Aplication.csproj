@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Polly" Version="7.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\GeoObservables.Api.Aplication.Contracts\GeoObservables.Api.Aplication.Contracts.csproj" />
     <ProjectReference Include="..\GeoObservables.Api.Business\GeoObservables.Api.Business.csproj" />
     <ProjectReference Include="..\GeoObservables.Api.DataAccess.Contracts\GeoObservables.Api.DataAccess.Contracts.csproj" />

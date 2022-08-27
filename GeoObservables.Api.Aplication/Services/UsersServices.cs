@@ -8,6 +8,7 @@ using GeoObservables.Api.Aplication.Contracts.Services;
 using GeoObservables.Api.Business.Models;
 using GeoObservables.Api.DataAccess.Contracts.Repositories;
 using GeoObservables.Api.DataAccess.Mappers;
+using Polly;
 
 namespace GeoObservables.Api.Aplication.Services
 {
@@ -28,37 +29,52 @@ namespace GeoObservables.Api.Aplication.Services
 
         public async Task<UsersModel> GetUser(int idUser)
         {
-            var User = await _usersRepository.Get(idUser);
+            var retryPolity = Policy.Handle<Exception>().WaitAndRetryAsync(_maxTrys, i => _timeToWait);
 
-            return UsersMapper.Map(User);
+            return await retryPolity.ExecuteAsync(async () =>
+            {
+                return UsersMapper.Map(await _usersRepository.Get(idUser));
+            });
         }
 
         public async Task<UsersModel> AddUser(UsersModel user)
         {
-            var addUser = await _usersRepository.Add(UsersMapper.Map(user));
+            var retryPolity = Policy.Handle<Exception>().WaitAndRetryAsync(_maxTrys, i => _timeToWait);
 
-            return UsersMapper.Map(addUser);
+            return await retryPolity.ExecuteAsync(async () =>
+            {
+                return UsersMapper.Map(await _usersRepository.Add(UsersMapper.Map(user)));
+            });
         }
 
        public async Task<IEnumerable<UsersModel>> GetAllUsers()
-        {
-            var allUsers = await _usersRepository.GetAll();
+       {
+            var retryPolity = Policy.Handle<Exception>().WaitAndRetryAsync(_maxTrys, i => _timeToWait);
 
-            return allUsers.Select(UsersMapper.Map);
+            return await retryPolity.ExecuteAsync(async () =>
+            {
+                return (await _usersRepository.GetAll()).Select(UsersMapper.Map);
+            });
         }
 
         public async Task<UsersModel> UpdateUser(UsersModel user)
         {
-            var updUser = await _usersRepository.Update(UsersMapper.Map(user));
+            var retryPolity = Policy.Handle<Exception>().WaitAndRetryAsync(_maxTrys, i => _timeToWait);
 
-            return (UsersMapper.Map(updUser));
+            return await retryPolity.ExecuteAsync(async () =>
+            {
+                return UsersMapper.Map(await _usersRepository.Update(UsersMapper.Map(user)));
+            });
         }
 
         public async Task<bool> DeleteUser(int idUser)
         {
-            var isDelete = await _usersRepository.DeleteAsyncBool(idUser);
+            var retryPolity = Policy.Handle<Exception>().WaitAndRetryAsync(_maxTrys, i => _timeToWait);
 
-            return isDelete;
+            return await retryPolity.ExecuteAsync(async () =>
+            {
+                return await _usersRepository.DeleteAsyncBool(idUser);
+            });
         }
     }
 }

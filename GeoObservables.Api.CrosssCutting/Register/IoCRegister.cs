@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GeoObservables.Api.Aplication.ApiCaller;
 using GeoObservables.Api.Aplication.Configuration;
+using GeoObservables.Api.Aplication.Contracts.ApiCaller;
 using GeoObservables.Api.Aplication.Contracts.Configuration;
 using GeoObservables.Api.Aplication.Contracts.Services;
 using GeoObservables.Api.Aplication.Services;
@@ -54,9 +56,8 @@ namespace GeoObservables.Api.CrosssCutting.Register
 
         private static IServiceCollection AddRegisterOthers(IServiceCollection services)
         {
-
             services.AddTransient<IAppConfig, AppConfig>();
-            //services.AddTransient<IApiCaller, ApiCaller>();
+            services.AddTransient<IApiCaller, ApiCaller>();
 
             return services;
         }

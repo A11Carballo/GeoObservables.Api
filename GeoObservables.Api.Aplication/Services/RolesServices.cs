@@ -3,6 +3,7 @@ using GeoObservables.Api.Aplication.Contracts.Services;
 using GeoObservables.Api.Business.Models;
 using GeoObservables.Api.DataAccess.Contracts.Repositories;
 using GeoObservables.Api.DataAccess.Mappers;
+using Polly;
 
 namespace GeoObservables.Api.Aplication.Services
 {
@@ -23,37 +24,52 @@ namespace GeoObservables.Api.Aplication.Services
 
         public async Task<RolesModel> AddRol(RolesModel rol)
         {
-            var addRol = await _rolesRepository.Add(RolesMapper.Map(rol));
+            var retryPolity = Policy.Handle<Exception>().WaitAndRetryAsync(_maxTrys, i => _timeToWait);
 
-            return RolesMapper.Map(addRol);
+            return await retryPolity.ExecuteAsync(async () =>
+            {
+                return RolesMapper.Map(await _rolesRepository.Add(RolesMapper.Map(rol)));
+            });
         }
 
         public async Task<bool> DeleteRol(int idRol)
         {
-            var isDelete = await _rolesRepository.DeleteAsyncBool(idRol);
+            var retryPolity = Policy.Handle<Exception>().WaitAndRetryAsync(_maxTrys, i => _timeToWait);
 
-            return isDelete;
+            return await retryPolity.ExecuteAsync(async () =>
+            {
+                return await _rolesRepository.DeleteAsyncBool(idRol);
+            });
         }
 
         public async Task<IEnumerable<RolesModel>> GetAllRoles()
         {
-            var allRoles = await _rolesRepository.GetAll();
+            var retryPolity = Policy.Handle<Exception>().WaitAndRetryAsync(_maxTrys, i => _timeToWait);
 
-            return allRoles.Select(RolesMapper.Map);
+            return await retryPolity.ExecuteAsync(async () =>
+            {
+                return (await _rolesRepository.GetAll()).Select(RolesMapper.Map);
+            });
         }
 
         public async Task<RolesModel> GetRol(int idRol)
         {
-            var role = await _rolesRepository.Get(idRol);
+            var retryPolity = Policy.Handle<Exception>().WaitAndRetryAsync(_maxTrys, i => _timeToWait);
 
-            return RolesMapper.Map(role);
+            return await retryPolity.ExecuteAsync(async () =>
+            {
+                return RolesMapper.Map(await _rolesRepository.Get(idRol));
+            });
         }
 
         public async Task<RolesModel> UpdateRol(RolesModel rol)
         {
-            var updRol = await _rolesRepository.Update(RolesMapper.Map(rol));
+            var retryPolity = Policy.Handle<Exception>().WaitAndRetryAsync(_maxTrys, i => _timeToWait);
 
-            return (RolesMapper.Map(updRol));
+            return await retryPolity.ExecuteAsync(async () =>
+            {
+                return (RolesMapper.Map(await _rolesRepository.Update(RolesMapper.Map(rol))));
+            });
         }
 
     }

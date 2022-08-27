@@ -39,5 +39,7 @@ namespace GeoObservables.Api.Aplication.Configuration
             return 2;
         }
 
+        public string ServiceUrl => _configuaration.GetSection("ServiceUrl:Url").Value;
+
     }
 }

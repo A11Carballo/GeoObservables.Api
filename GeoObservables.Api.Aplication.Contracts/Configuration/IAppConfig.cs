@@ -10,5 +10,6 @@ namespace GeoObservables.Api.Aplication.Contracts.Configuration
     {
         public int MaxTrys();
         public int SecondsToWait();
+        public string ServiceUrl { get; }
     }
 }
