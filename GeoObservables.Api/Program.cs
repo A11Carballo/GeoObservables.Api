@@ -32,6 +32,10 @@ if (app.Environment.IsDevelopment())
     SwaggerConfig.AddRegistration(app, builder);
 }
 
+app.UseDispatcherMiddleware();
+
+app.UseLogMiddleware();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

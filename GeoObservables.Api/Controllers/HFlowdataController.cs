@@ -9,11 +9,11 @@ namespace GeoObservables.Api.Controllers
     [Route("api/[controller]")]
     public class HFlowdataController : Controller
     {
-        private readonly Lazy<ILogger<HFlowdataController>> _logger;
+        private readonly ILogger<HFlowdataController> _logger;
 
-        private readonly Lazy<IHFlowdataServices> _hFlowdataServices;
+        private readonly IHFlowdataServices _hFlowdataServices;
 
-        public HFlowdataController(Lazy<ILogger<HFlowdataController>> logger, Lazy<IHFlowdataServices> hFlowdataServices)
+        public HFlowdataController(ILogger<HFlowdataController> logger, IHFlowdataServices hFlowdataServices)
         {
             _logger = logger;
             _hFlowdataServices = hFlowdataServices;
@@ -34,7 +34,7 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(HFlowdataViewModel))]
         [HttpGet("{idHFlow}")]
         public async Task<HFlowdataViewModel> Get(int idHFlow) =>
-             HFlowdataMapper.Map(await _hFlowdataServices.Value.GetHFlowdata(idHFlow));
+             HFlowdataMapper.Map(await _hFlowdataServices.GetHFlowdata(idHFlow));
 
         /// <summary>
         /// POST HFlow
@@ -49,7 +49,7 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(HFlowdataViewModel))]
         [HttpPost]
         public async Task<HFlowdataViewModel> AddRol([FromBody] HFlowdataViewModel HFlow) =>
-            HFlowdataMapper.Map(await _hFlowdataServices.Value.AddHFlowdata(HFlowdataMapper.Map(HFlow)));
+            HFlowdataMapper.Map(await _hFlowdataServices.AddHFlowdata(HFlowdataMapper.Map(HFlow)));
 
         /// <summary>
         /// Delete HFlow
@@ -63,7 +63,7 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(bool))]
         [HttpDelete("{idHFlow}")]
-        public async Task<bool> DeleteRol(int idHFlow) => await _hFlowdataServices.Value.DeleteHFlowdata(idHFlow);
+        public async Task<bool> DeleteRol(int idHFlow) => await _hFlowdataServices.DeleteHFlowdata(idHFlow);
 
         /// <summary>
         /// PUT HFlow
@@ -78,7 +78,7 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(HFlowdataViewModel))]
         [HttpPut]
         public async Task<HFlowdataViewModel> UpdateRoles([FromBody] HFlowdataViewModel HFlow) =>
-            HFlowdataMapper.Map(await _hFlowdataServices.Value.UpdateHFlowdata(HFlowdataMapper.Map(HFlow)));
+            HFlowdataMapper.Map(await _hFlowdataServices.UpdateHFlowdata(HFlowdataMapper.Map(HFlow)));
 
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(List<HFlowdataViewModel>))]
         [HttpGet]
         public async Task<IActionResult> GetAlRoless() =>
-             Ok(await _hFlowdataServices.Value.GetAllHFlows());
+             Ok(await _hFlowdataServices.GetAllHFlows());
     }
 
 }
