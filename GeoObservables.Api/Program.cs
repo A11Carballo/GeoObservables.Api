@@ -17,6 +17,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<IGeoObservablesDBContext, GeoObservablesDBContext>();
 
 builder.Services.AddDbContext<GeoObservablesDBContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddApplicationInsightsTelemetry(builder.Configuration);
+
 
 IoCRegister.AddRegistration(builder.Services);
 
