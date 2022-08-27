@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GeoObservables.Api.Aplication.Configuration;
+using GeoObservables.Api.Aplication.Contracts.Configuration;
 using GeoObservables.Api.Aplication.Contracts.Services;
 using GeoObservables.Api.Aplication.Services;
 using GeoObservables.Api.DataAccess.Contracts.Repositories;
@@ -18,6 +20,8 @@ namespace GeoObservables.Api.CrosssCutting.Register
             AddRegisterRepositaries(services);
 
             AddRegisterServices(services);
+
+            AddRegisterOthers(services);
 
             return services;
         }
@@ -44,6 +48,15 @@ namespace GeoObservables.Api.CrosssCutting.Register
             services.AddTransient<IRolesRepository, RolesRepository>();
 
             services.AddTransient<IHFlowdataRepository, HFlowdataRepository>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddRegisterOthers(IServiceCollection services)
+        {
+
+            services.AddTransient<IAppConfig, AppConfig>();
+            //services.AddTransient<IApiCaller, ApiCaller>();
 
             return services;
         }

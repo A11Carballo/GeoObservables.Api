@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GeoObservables.Api.Aplication.Contracts.Configuration;
 using GeoObservables.Api.Aplication.Contracts.Services;
 using GeoObservables.Api.Business.Models;
 using GeoObservables.Api.DataAccess.Contracts.Repositories;
@@ -12,10 +13,17 @@ namespace GeoObservables.Api.Aplication.Services
 {
     public class UsersServices : IUsersServices
     {
+        private readonly IAppConfig _appConfig;
+        private readonly int _maxTrys;
+        private readonly TimeSpan _timeToWait;
         private readonly IUsersRepository _usersRepository;
-        public UsersServices(IUsersRepository usersRepository)
+        public UsersServices(IUsersRepository usersRepository, IAppConfig appConfig)
         {
             _usersRepository = usersRepository;
+            _appConfig = appConfig;
+
+            _maxTrys = _appConfig.MaxTrys();
+            _timeToWait = TimeSpan.FromSeconds(_appConfig.SecondsToWait());
         }
 
         public async Task<UsersModel> GetUser(int idUser)

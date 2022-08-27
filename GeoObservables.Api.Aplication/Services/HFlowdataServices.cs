@@ -1,4 +1,5 @@
-﻿using GeoObservables.Api.Aplication.Contracts.Services;
+﻿using GeoObservables.Api.Aplication.Contracts.Configuration;
+using GeoObservables.Api.Aplication.Contracts.Services;
 using GeoObservables.Api.Business.Models;
 using GeoObservables.Api.DataAccess.Contracts.Repositories;
 using GeoObservables.Api.DataAccess.Mappers;
@@ -8,9 +9,17 @@ namespace GeoObservables.Api.Aplication.Services
     public class HFlowdataServices : IHFlowdataServices
     {
         private readonly IHFlowdataRepository _hFlowdataServices;
-        public HFlowdataServices(IHFlowdataRepository hFlowdataServices)
+        private readonly IAppConfig _appConfig;
+        private readonly int _maxTrys;
+        private readonly TimeSpan _timeToWait;
+
+        public HFlowdataServices(IHFlowdataRepository hFlowdataServices, IAppConfig appConfig)
         {
             _hFlowdataServices = hFlowdataServices;
+            _appConfig = appConfig;
+
+            _maxTrys = _appConfig.MaxTrys();
+            _timeToWait = TimeSpan.FromSeconds(_appConfig.SecondsToWait());
         }
 
         public async Task<HFlowdataModel> AddHFlowdata(HFlowdataModel HFlowdata)
