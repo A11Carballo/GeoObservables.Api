@@ -35,9 +35,20 @@ namespace GeoObservables.Api.DataAccess.Repositories
             return Entity;
         }
 
-        public async Task<bool> DeleteAsyncBool(int id)
+        public async Task<bool> DeleteAsyncBool(int idEntity)
         {
-            throw new NotImplementedException();
+            var entityDelete = await _geoObservablesDBContext.Users.SingleAsync(x => x.Id == idEntity);
+
+            if (entityDelete != null)
+            {
+                _geoObservablesDBContext.Users.Remove(entityDelete);
+
+                await _geoObservablesDBContext.SaveChangesAsync();
+
+                return true;
+            }
+
+            return false;
         }
 
         public Task<bool> Exist(int id)
@@ -49,6 +60,11 @@ namespace GeoObservables.Api.DataAccess.Repositories
 
 
         public async Task<IEnumerable<UsersEntity>> GetAll() => await _geoObservablesDBContext.Set<UsersEntity>().ToListAsync();
+
+        public async Task<UsersEntity> GetUserByMail(string Mail)
+        {
+            return await _geoObservablesDBContext.Users.FirstOrDefaultAsync(u => u.Mail == Mail);
+        }
 
         public async Task<UsersEntity> Update(int id, UsersEntity entity)
         {

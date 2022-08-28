@@ -11,5 +11,14 @@ namespace GeoObservables.Api.Aplication.Contracts.Configuration
         public int MaxTrys();
         public int SecondsToWait();
         public string ServiceUrl { get; }
+        public string JwtSubject { get; }
+
+        public string JwtAudience { get; }
+
+        public string JwtKey { get; }
+
+        public string JwtIssuer { get; }
+
+        public string ExpireToken { get; }
     }
 }

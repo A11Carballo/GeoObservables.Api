@@ -41,5 +41,11 @@ namespace GeoObservables.Api.Aplication.Configuration
 
         public string ServiceUrl => _configuaration.GetSection("ServiceUrl:Url").Value;
 
+        public string JwtSubject => _configuaration.GetSection("Jwt:Subject").Value;
+        public string JwtKey => _configuaration.GetSection("Jwt:Key").Value;
+        public string JwtAudience => _configuaration.GetSection("Jwt:Audience").Value;
+        public string JwtIssuer => _configuaration.GetSection("Jwt:Issuer").Value;
+        public string ExpireToken => _configuaration.GetSection("AppSettings:ExpireToken").Value;
+
     }
 }

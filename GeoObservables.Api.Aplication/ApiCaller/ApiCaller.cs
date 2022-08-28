@@ -12,9 +12,11 @@ namespace GeoObservables.Api.Aplication.ApiCaller
 
         public ApiCaller(IAppConfig appConfig)
         {
+            _appConfig = appConfig;
+
             _httpClient = new HttpClient
             {
-                BaseAddress = new Uri(appConfig.ServiceUrl)
+                BaseAddress = new Uri(_appConfig.ServiceUrl)
             };
 
             _httpClient.DefaultRequestHeaders.Accept.Add(

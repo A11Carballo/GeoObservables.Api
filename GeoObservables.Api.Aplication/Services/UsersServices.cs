@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GeoObservables.Api.Aplication.Contracts.Configuration;
 using GeoObservables.Api.Aplication.Contracts.Services;
+using GeoObservables.Api.Aplication.Login;
 using GeoObservables.Api.Business.Models;
 using GeoObservables.Api.DataAccess.Contracts.Repositories;
 using GeoObservables.Api.DataAccess.Mappers;
@@ -75,6 +76,60 @@ namespace GeoObservables.Api.Aplication.Services
             {
                 return await _usersRepository.DeleteAsyncBool(idUser);
             });
+        }
+
+        public async Task<UsersModel> GetInternalLogin(string mail, string password)
+        {
+            var retryPolity = Policy.Handle<Exception>().WaitAndRetryAsync(_maxTrys, i => _timeToWait);
+
+            if (string.IsNullOrEmpty(mail) || string.IsNullOrEmpty(password))
+                return null;
+
+            return await retryPolity.ExecuteAsync(async () =>
+            {
+                try
+                {
+                    UsersModel? user = UsersMapper.Map(await _usersRepository.GetUserByMail(mail));
+                    CustomPasswordHasher? customPasswordHasher = new CustomPasswordHasher();
+
+                    if (customPasswordHasher.VerifyPassword(user.Password, password))
+                    {
+                        return user;
+                    }
+                    else
+                    {
+                        // Login Failed
+                        return null;
+                    }
+                }
+                catch (Exception e)
+                {
+                    //Por si falla el mapper porque devuelva nullo el user o cualquier otro motivo.
+                    return null;
+                }
+
+            });
+        }
+
+        public async Task<UsersModel> CreateInternalUser(string name, string mail, string password, string Ip, int rol)
+        {
+
+            //Controlamos cualquier tipo de excepción y reintentamos las veces que nos marque la configuración.
+            var retryPolity = Policy.Handle<Exception>().WaitAndRetryAsync(_maxTrys, i => _timeToWait);
+
+            return await retryPolity.ExecuteAsync(async () =>
+            {
+                var customPasswordHasher = new CustomPasswordHasher();
+
+                var passwordHas = customPasswordHasher.HashPassword(password);
+
+                UsersModel user = new UsersModel() { Password = passwordHas, Mail = mail, IdRole = rol };
+
+                var addedEntity = await _usersRepository.Add(UsersMapper.Map(user));
+
+                return UsersMapper.Map(addedEntity);
+            });
+
         }
     }
 }
