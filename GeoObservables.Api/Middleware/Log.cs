@@ -34,7 +34,6 @@ namespace GeoObservables.Api.Middleware
 
             Tracerequest(requestBodyText, url, context.Request.Method);
 
-
         }
 
 

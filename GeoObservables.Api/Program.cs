@@ -12,6 +12,17 @@ var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration; // allows both to access and to set up the config
 IWebHostEnvironment environment = builder.Environment;
 
+/*builder.Services.AddSession(options =>
+{
+    // default session time out is 20 minutes 
+    // but we can set it to any time span 
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+
+    // allows to use the session cookie 
+    // even if the user hasn't consented 
+    options.Cookie.IsEssential = true;
+});*/
+
 // Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

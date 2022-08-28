@@ -7,6 +7,19 @@ using System.Threading.Tasks;
 namespace GeoObservables.Api.Business.Models { 
     public class UsersModel
     {
+        public UsersModel()
+        {
+        }
+        public UsersModel(string user, string password, string mail, int idRole, string description="No description", bool active=false)
+        {
+            this.User = user;
+            this.Password = password;
+            this.Mail = mail;
+            this.IdRole = idRole;
+            this.Description = description;
+            this.DateCreated = DateTime.Today;
+            this.Active = active;
+        }
         public int Id { get; set; }
         public string User { get; set; }
         public string Mail { get; set; }

@@ -62,7 +62,7 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(bool))]
-        [HttpDelete("{id}")]
+        [HttpDelete("{idUser}")]
         public async Task<bool> DeleteUser(int idUser) => await _usersServices.DeleteUser(idUser);
 
         /// <summary>

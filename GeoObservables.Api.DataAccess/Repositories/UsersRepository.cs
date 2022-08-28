@@ -17,11 +17,12 @@ namespace GeoObservables.Api.DataAccess.Repositories
 
         public async Task<UsersEntity> Add(UsersEntity entity)
         {
+
             await _geoObservablesDBContext.Users.AddAsync(entity);
 
             await _geoObservablesDBContext.SaveChangesAsync();
 
-            return entity;
+            return await Get(entity.Id); ;
         }
 
         public async Task<UsersEntity> DeleteAsync(int idEntity)
@@ -61,10 +62,7 @@ namespace GeoObservables.Api.DataAccess.Repositories
 
         public async Task<IEnumerable<UsersEntity>> GetAll() => await _geoObservablesDBContext.Set<UsersEntity>().ToListAsync();
 
-        public async Task<UsersEntity> GetUserByMail(string Mail)
-        {
-            return await _geoObservablesDBContext.Users.FirstOrDefaultAsync(u => u.Mail == Mail);
-        }
+        public async Task<UsersEntity> GetUserByMail(string Mail) => await _geoObservablesDBContext.Users.Include(x => x.Roles).FirstOrDefaultAsync(u => u.Mail == Mail);
 
         public async Task<UsersEntity> Update(int id, UsersEntity entity)
         {

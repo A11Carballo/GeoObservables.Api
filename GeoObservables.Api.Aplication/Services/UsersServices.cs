@@ -19,10 +19,12 @@ namespace GeoObservables.Api.Aplication.Services
         private readonly int _maxTrys;
         private readonly TimeSpan _timeToWait;
         private readonly IUsersRepository _usersRepository;
-        public UsersServices(IUsersRepository usersRepository, IAppConfig appConfig)
+        private readonly IRolesServices _rolesServices;
+        public UsersServices(IUsersRepository usersRepository, IAppConfig appConfig, IRolesServices rolesServices)
         {
             _usersRepository = usersRepository;
             _appConfig = appConfig;
+            _rolesServices = rolesServices;
 
             _maxTrys = _appConfig.MaxTrys();
             _timeToWait = TimeSpan.FromSeconds(_appConfig.SecondsToWait());
@@ -111,7 +113,7 @@ namespace GeoObservables.Api.Aplication.Services
             });
         }
 
-        public async Task<UsersModel> CreateInternalUser(string name, string mail, string password, string Ip, int rol)
+        public async Task<UsersModel> CreateInternalUser(string name, string mail, string password, string Ip, int rol, string description)
         {
 
             //Controlamos cualquier tipo de excepción y reintentamos las veces que nos marque la configuración.
@@ -123,7 +125,9 @@ namespace GeoObservables.Api.Aplication.Services
 
                 var passwordHas = customPasswordHasher.HashPassword(password);
 
-                UsersModel user = new UsersModel() { Password = passwordHas, Mail = mail, IdRole = rol };
+                //var RolDto = await _rolesServices.GetRol(rol) ?? new RolesModel();
+
+                UsersModel user = new UsersModel(name, passwordHas, mail, rol, description, true);
 
                 var addedEntity = await _usersRepository.Add(UsersMapper.Map(user));
 

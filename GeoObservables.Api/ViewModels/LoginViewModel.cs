@@ -4,8 +4,8 @@ namespace GeoObservables.Api.ViewModels
 {
     public class LoginViewModel
     {
+        [Required]
         public string User { get; set; }
-
         [Required]
         public string Mail { get; set; }
         [Required]
@@ -14,5 +14,6 @@ namespace GeoObservables.Api.ViewModels
         public string Rol { get; set; }
         [Required]
         public int idRol { get; set; }
+        public string Description { get; set; }
     }
 }

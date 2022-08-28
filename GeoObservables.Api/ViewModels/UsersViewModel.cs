@@ -13,7 +13,6 @@ namespace GeoObservables.Api.ViewModels
         public string Password { get; set; }
         [Required]
         public int IdRole { get; set; }
-        [Required]
         public string Description { get; set; }
         public bool Active { get; set; }
         public DateTime DateCreated { get; set; }

@@ -5,9 +5,12 @@ namespace GeoObservables.Api.Mappers
 {
     public class UsersMapper
     {
-        public static UsersViewModel Map(UsersModel dto)
+        private static int rolusuario = 4;
+        public static UsersViewModel? Map(UsersModel dto)
         {
-            return new UsersViewModel()
+            if (dto.IdRole != null && dto.IdRole != 0) { rolusuario = dto.IdRole; };
+
+            return dto == null ? null : new UsersViewModel()
             {
                 Id = dto.Id,
                 User = dto.User,
@@ -15,15 +18,17 @@ namespace GeoObservables.Api.Mappers
                 Password = dto.Password,
                 DateCreated = dto.DateCreated,
                 DateModified = dto.DateModified,
-                IdRole = dto.IdRole,
+                IdRole = rolusuario,
                 Description = dto.Description,
                 Active = dto.Active
             };
         }
 
-        public static UsersModel Map(UsersViewModel dto)
+        public static UsersModel? Map(UsersViewModel dto)
         {
-            return new UsersModel()
+            if (dto.IdRole != null && dto.IdRole != 0) { rolusuario = dto.IdRole; };
+
+            return dto == null ? null : new UsersModel()
             {
                 Id = dto.Id,
                 User = dto.User,
@@ -31,7 +36,7 @@ namespace GeoObservables.Api.Mappers
                 Password = dto.Password,
                 DateCreated = dto.DateCreated,
                 DateModified = dto.DateModified,
-                IdRole = dto.IdRole,
+                IdRole = rolusuario,
                 Description = dto.Description,
                 Active = dto.Active
             };

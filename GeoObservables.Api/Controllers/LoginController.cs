@@ -59,7 +59,7 @@ namespace GeoObservables.Api.Controllers
                     };
 
                 // save in a session 
-                HttpContext.Session.SetString("SESS_KEY", user.Mail);
+                HttpContext.Session.SetString("SKEY", user.Mail);
 
                 var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_appConfig.JwtKey));
 
@@ -89,7 +89,7 @@ namespace GeoObservables.Api.Controllers
         public async Task<IActionResult> CreateUser([FromBody] LoginViewModel login)
         {
             var ip = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName()).AddressList.Where(o => o.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork).First().ToString();
-            var userMod = LoginUserMapper.Map(await _userService.CreateInternalUser(login.User, login.Mail, login.Password, ip, login.idRol));
+            var userMod = LoginUserMapper.Map(await _userService.CreateInternalUser(login.User, login.Mail, login.Password, ip, login.idRol, login.Description));
 
             var claims = new[] {
                     new Claim(JwtRegisteredClaimNames.Sub, _appConfig.JwtSubject),
