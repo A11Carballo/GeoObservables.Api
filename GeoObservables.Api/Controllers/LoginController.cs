@@ -16,13 +16,15 @@ namespace GeoObservables.Api.Controllers
     {
         private readonly IUsersServices _userService;
         private readonly IAppConfig _appConfig;
+        private readonly IRolesServices _rolesServices;
 
         //Podemos inyectar los servicios que queramos por controlador.
 
-        public LoginController(IUsersServices userService, IAppConfig appConfig)
+        public LoginController(IUsersServices userService, IAppConfig appConfig, IRolesServices rolesServices)
         {
             _userService = userService;
             _appConfig = appConfig;
+            _rolesServices = rolesServices;
         }
 
 
@@ -88,8 +90,13 @@ namespace GeoObservables.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateUser([FromBody] LoginViewModel login)
         {
+            var RolUser = _rolesServices.GetRolByRol(login.Rol).Result;
+
+            if (RolUser == null || RolUser.Id > _rolesServices.GetAllRoles().Result.LastOrDefault().Id || RolUser.Id == 0)
+                throw new ArgumentNullException();
+
             var ip = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName()).AddressList.Where(o => o.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork).First().ToString();
-            var userMod = LoginUserMapper.Map(await _userService.CreateInternalUser(login.User, login.Mail, login.Password, ip, login.idRol, login.Description));
+            var userMod = LoginUserMapper.Map(await _userService.CreateInternalUser(login.User, login.Mail, login.Password, ip, RolUser.Id, login.Description));
 
             var claims = new[] {
                     new Claim(JwtRegisteredClaimNames.Sub, _appConfig.JwtSubject),

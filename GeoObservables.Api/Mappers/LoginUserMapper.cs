@@ -14,7 +14,6 @@ namespace GeoObservables.Api.Mappers
             {
                 Mail = model.Mail,
                 Password = model.Password,
-                IdRole = model.idRol,
                 Description = model.Description
             };
         }
@@ -26,7 +25,6 @@ namespace GeoObservables.Api.Mappers
                 //Name = dto.Name,
                 Mail = dto.Mail,
                 Password = dto.Password,
-                idRol = dto.IdRole,
                 Description = dto.Description,
                 Rol = dto.Roles.Role
 

@@ -51,6 +51,7 @@ namespace GeoObservables.Api.DataAccess.Repositories
 
         public async Task<RolesEntity> Get(int idEntity) => await _geoObservablesDBContext.Roles.FirstOrDefaultAsync(x => x.Id == idEntity);
 
+        public async Task<RolesEntity> GetByRol(string rol) => await _geoObservablesDBContext.Roles.FirstOrDefaultAsync(x => x.Role == rol);
 
         public async Task<IEnumerable<RolesEntity>> GetAll() => await _geoObservablesDBContext.Set<RolesEntity>().ToListAsync();
 

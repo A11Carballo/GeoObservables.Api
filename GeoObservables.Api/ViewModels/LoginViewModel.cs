@@ -12,8 +12,6 @@ namespace GeoObservables.Api.ViewModels
         public string Password { get; set; }
         [Required]
         public string Rol { get; set; }
-        [Required]
-        public int idRol { get; set; }
         public string Description { get; set; }
     }
 }

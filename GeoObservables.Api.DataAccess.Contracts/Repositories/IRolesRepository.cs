@@ -9,5 +9,6 @@ namespace GeoObservables.Api.DataAccess.Contracts.Repositories
 {
     public interface IRolesRepository : IRepository<RolesEntity>
     {
+        Task<RolesEntity> GetByRol(string rol);
     }
 }

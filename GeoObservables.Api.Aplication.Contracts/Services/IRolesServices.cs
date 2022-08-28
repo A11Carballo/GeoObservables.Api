@@ -9,5 +9,6 @@ namespace GeoObservables.Api.Aplication.Contracts.Services
         Task<IEnumerable<RolesModel>> GetAllRoles();
         Task<bool> DeleteRol(int idRol);
         Task<RolesModel> UpdateRol(RolesModel rol);
+        Task<RolesModel> GetRolByRol(string roll);
     }
 }

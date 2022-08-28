@@ -62,6 +62,16 @@ namespace GeoObservables.Api.Aplication.Services
             });
         }
 
+        public async Task<RolesModel> GetRolByRol(string roll)
+        {
+            var retryPolity = Policy.Handle<Exception>().WaitAndRetryAsync(_maxTrys, i => _timeToWait);
+
+            return await retryPolity.ExecuteAsync(async () =>
+            {
+                return RolesMapper.Map(await _rolesRepository.GetByRol(roll));
+            });
+        }
+
         public async Task<RolesModel> UpdateRol(RolesModel rol)
         {
             var retryPolity = Policy.Handle<Exception>().WaitAndRetryAsync(_maxTrys, i => _timeToWait);
