@@ -95,6 +95,21 @@ namespace GeoObservables.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllUsers() =>
              Ok(await _usersServices.GetAllUsers());
+
+        /// <summary>
+        /// Deactivate User
+        /// </summary>
+        /// <param name="mail"></param>
+        /// <returns></returns>
+        [Produces("application/json", Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(bool))]
+        [HttpPut("Deactivate/{mail}")]
+        public async Task<UsersViewModel> DeactivateUser(string mail) => UsersMapper.Map(await _usersServices.Deactivate(mail));
+
     }
 
 }

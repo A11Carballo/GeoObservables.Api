@@ -81,5 +81,21 @@ namespace GeoObservables.Api.DataAccess.Repositories
 
             return updateEntity.Entity;
         }
+
+        public async Task<UsersEntity> Deactivate(string mail)
+        {
+            var updEntity = GetUserByMail(mail).Result;
+
+            updEntity.Active = false;
+
+            updEntity.DateModified= DateTime.Today;
+
+            var updateEntity = _geoObservablesDBContext.Users.Update(updEntity);
+
+            await _geoObservablesDBContext.SaveChangesAsync();
+
+            return updateEntity.Entity;
+        }
+
     }
 }

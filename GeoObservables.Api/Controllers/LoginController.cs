@@ -29,7 +29,7 @@ namespace GeoObservables.Api.Controllers
 
 
         /// <summary>
-        /// Acceso GSF Login
+        /// Acceso Geo Login
         /// </summary>
         /// <param name="mail"></param>
         /// <param name="password"></param>
@@ -115,5 +115,21 @@ namespace GeoObservables.Api.Controllers
             //Pero la salida devolvemos el token.            
             return Ok(new JwtSecurityTokenHandler().WriteToken(token));
         }
+
+        /// <summary>
+        /// Deactivate Geo Login
+        /// </summary>
+        /// <param name="mail"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        [ProducesResponseType(200)]
+        [ProducesResponseType(500)]
+        [ProducesResponseType(401)]
+        [ProducesResponseType(400)]
+        [Produces("application/json", Type = typeof(LoginViewModel))]
+        [HttpPut("Deactivate/{mail}/{password}")]
+        public async Task<UsersViewModel> DeactivateInternalLogin(string mail, string password) =>
+             UsersMapper.Map(await _userService.DeactivateInternalLogin(mail, password));
+
     }
 }

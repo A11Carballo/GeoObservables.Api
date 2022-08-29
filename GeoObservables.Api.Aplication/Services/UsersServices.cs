@@ -40,6 +40,16 @@ namespace GeoObservables.Api.Aplication.Services
             });
         }
 
+        public async Task<UsersModel> Deactivate(string mail)
+        {
+            var retryPolity = Policy.Handle<Exception>().WaitAndRetryAsync(_maxTrys, i => _timeToWait);
+
+            return await retryPolity.ExecuteAsync(async () =>
+            {
+                return UsersMapper.Map(await _usersRepository.Deactivate(mail));
+            });
+        }
+
         public async Task<UsersModel> AddUser(UsersModel user)
         {
             var retryPolity = Policy.Handle<Exception>().WaitAndRetryAsync(_maxTrys, i => _timeToWait);
@@ -134,6 +144,39 @@ namespace GeoObservables.Api.Aplication.Services
                 return UsersMapper.Map(addedEntity);
             });
 
+        }
+
+        public async Task<UsersModel> DeactivateInternalLogin(string mail, string password)
+        {
+            var retryPolity = Policy.Handle<Exception>().WaitAndRetryAsync(_maxTrys, i => _timeToWait);
+
+            if (string.IsNullOrEmpty(mail) || string.IsNullOrEmpty(password))
+                return null;
+
+            return await retryPolity.ExecuteAsync(async () =>
+            {
+                try
+                {
+                    UsersModel? user = UsersMapper.Map(await _usersRepository.GetUserByMail(mail));
+                    CustomPasswordHasher? customPasswordHasher = new CustomPasswordHasher();
+
+                    if (customPasswordHasher.VerifyPassword(user.Password, password))
+                    {
+                        return UsersMapper.Map(await _usersRepository.Deactivate(mail));
+                    }
+                    else
+                    {
+                        // Verification Failed
+                        return null;
+                    }
+                }
+                catch (Exception e)
+                {
+                    //Por si falla el mapper porque devuelva nullo el user o cualquier otro motivo.
+                    return null;
+                }
+
+            });
         }
     }
 }

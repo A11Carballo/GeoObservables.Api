@@ -10,5 +10,6 @@ namespace GeoObservables.Api.DataAccess.Contracts.Repositories
     public interface IUsersRepository : IRepository<UsersEntity>
     {
         Task<UsersEntity> GetUserByMail(string Mail);
+        Task<UsersEntity> Deactivate(string mail);
     }
 }
