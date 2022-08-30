@@ -16,7 +16,7 @@ namespace GeoObservables.Api.Business.Models {
             this.Password = password;
             this.Mail = mail;
             this.IdRole = idRole;
-            this.Description = description;
+            this.Description = description; 
             this.DateCreated = DateTime.Today;
             this.Active = active;
         }
