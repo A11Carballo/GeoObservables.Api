@@ -15,11 +15,22 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- task: NuGetToolInstaller@1
-
-- task: NuGetCommand@2
+- task: UseDotNet@2
+  displayName: 'Use .NET Core sdk'
   inputs:
-    restoreSolution: '$(solution)'
+    packageType: 'sdk'
+    version: '6.0.x'
+    includePreviewVersions: true
+
+- task: NuGetToolInstaller@1
+  displayName: 'Use NuGet '
+  inputs:
+    checkLatest: true
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+    projects: '$(solution)'
 
 - task: VSBuild@1
   inputs:
@@ -27,6 +38,7 @@ steps:
     msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+    customVersion: 17.0.0
 
 - task: VSTest@2
   inputs:
