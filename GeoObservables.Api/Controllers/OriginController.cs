@@ -1,4 +1,5 @@
 ﻿using GeoObservables.Api.Aplication.Contracts.Services;
+using GeoObservables.Api.Aplication.Services;
 using GeoObservables.Api.Mappers;
 using GeoObservables.Api.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -95,6 +96,20 @@ namespace GeoObservables.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAlRoless() =>
              Ok(await _originServices.GetAllOrigins());
+
+        /// <summary>
+        /// Exist Origin
+        /// </summary>
+        /// <param name="idOri"></param>
+        /// <returns></returns>
+        [Produces("application/json", Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(bool))]
+        [HttpGet("exist/{idOri}")]
+        public async Task<bool> ExistRol(int idOri) => await _originServices.ExistOrigin(idOri);
     }
 
 }

@@ -1,7 +1,9 @@
 ﻿using GeoObservables.Api.Aplication.Contracts.Services;
+using GeoObservables.Api.Aplication.Services;
 using GeoObservables.Api.Mappers;
 using GeoObservables.Api.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 
 namespace GeoObservables.Api.Controllers
 {
@@ -109,6 +111,20 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(bool))]
         [HttpPut("Deactivate/{mail}")]
         public async Task<UsersViewModel> DeactivateUser(string mail) => UsersMapper.Map(await _usersServices.Deactivate(mail));
+
+        /// <summary>
+        /// Exist User
+        /// </summary>
+        /// <param name="idUser"></param>
+        /// <returns></returns>
+        [Produces("application/json", Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(bool))]
+        [HttpGet("exist/{idUser}")]
+        public async Task<bool> ExistUsers(int idUser) => await _usersServices.ExistUsers(idUser);
 
     }
 

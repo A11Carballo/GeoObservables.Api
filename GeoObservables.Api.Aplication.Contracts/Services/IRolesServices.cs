@@ -10,5 +10,6 @@ namespace GeoObservables.Api.Aplication.Contracts.Services
         Task<bool> DeleteRol(int idRol);
         Task<RolesModel> UpdateRol(RolesModel rol);
         Task<RolesModel> GetRolByRol(string roll);
+        Task<bool> ExistRol(int idRol);
     }
 }

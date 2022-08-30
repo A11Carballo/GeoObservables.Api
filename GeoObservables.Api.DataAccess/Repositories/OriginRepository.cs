@@ -40,10 +40,7 @@ namespace GeoObservables.Api.DataAccess.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<bool> Exist(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<bool> Exist(int id) => (await Get(id)).OriginInfo.Any();
 
         public async Task<OriginEntity> Get(int idEntity) => await _geoObservablesDBContext.Origin.Include(x => x.HFlowdata).FirstOrDefaultAsync(x => x.Id == idEntity);
 

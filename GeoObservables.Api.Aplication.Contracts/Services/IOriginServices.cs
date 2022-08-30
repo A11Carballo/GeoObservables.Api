@@ -14,5 +14,6 @@ namespace GeoObservables.Api.Aplication.Contracts.Services
         Task<IEnumerable<OriginModel>> GetAllOrigins();
         Task<bool> DeleteOrigin(int idOrigin);
         Task<OriginModel> UpdateOrigin(OriginModel origin);
+        Task<bool> ExistOrigin(int idRol);
     }
 }

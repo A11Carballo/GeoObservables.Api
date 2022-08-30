@@ -3,6 +3,7 @@ using GeoObservables.Api.Aplication.Contracts.Services;
 using GeoObservables.Api.Business.Models;
 using GeoObservables.Api.DataAccess.Contracts.Repositories;
 using GeoObservables.Api.DataAccess.Mappers;
+using GeoObservables.Api.DataAccess.Repositories;
 using Polly;
 
 namespace GeoObservables.Api.Aplication.Services
@@ -70,6 +71,16 @@ namespace GeoObservables.Api.Aplication.Services
             return await retryPolity.ExecuteAsync(async () =>
             {
                 return (OriginMapper.Map(await _originRepository.Update(OriginMapper.Map(origin))));
+            });
+        }
+
+        public async Task<bool> ExistOrigin(int idRol)
+        {
+            var retryPolity = Policy.Handle<Exception>().WaitAndRetryAsync(_maxTrys, i => _timeToWait);
+
+            return await retryPolity.ExecuteAsync(async () =>
+            {
+                return await _originRepository.Exist(idRol);
             });
         }
     }

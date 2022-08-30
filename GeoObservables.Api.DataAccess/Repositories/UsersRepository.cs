@@ -52,13 +52,9 @@ namespace GeoObservables.Api.DataAccess.Repositories
             return false;
         }
 
-        public Task<bool> Exist(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<bool> Exist(int id) => (await Get(id)).User.Any();
 
         public async Task<UsersEntity> Get(int idEntity) => await _geoObservablesDBContext.Users.Include(x => x.Roles).FirstOrDefaultAsync(x => x.Id == idEntity);
-
 
         public async Task<IEnumerable<UsersEntity>> GetAll() => await _geoObservablesDBContext.Set<UsersEntity>().ToListAsync();
 

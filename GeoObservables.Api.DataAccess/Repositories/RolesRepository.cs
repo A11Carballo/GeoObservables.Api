@@ -44,10 +44,7 @@ namespace GeoObservables.Api.DataAccess.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<bool> Exist(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<bool> Exist(int id) => (await Get(id)).Role.Any();
 
         public async Task<RolesEntity> Get(int idEntity) => await _geoObservablesDBContext.Roles.FirstOrDefaultAsync(x => x.Id == idEntity);
 

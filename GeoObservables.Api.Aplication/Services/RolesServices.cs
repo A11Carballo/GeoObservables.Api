@@ -82,5 +82,15 @@ namespace GeoObservables.Api.Aplication.Services
             });
         }
 
+        public async Task<bool> ExistRol(int idRol)
+        {
+            var retryPolity = Policy.Handle<Exception>().WaitAndRetryAsync(_maxTrys, i => _timeToWait);
+
+            return await retryPolity.ExecuteAsync(async () =>
+            {
+                return await _rolesRepository.Exist(idRol);
+            });
+        }
+
     }
 }
