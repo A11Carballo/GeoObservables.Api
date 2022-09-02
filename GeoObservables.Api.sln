@@ -29,7 +29,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.5 Cross-Cutting", "1.5 Cr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeoObservables.Api.CrosssCutting", "GeoObservables.Api.CrosssCutting\GeoObservables.Api.CrosssCutting.csproj", "{494DC5DF-3B4D-4933-BDC2-779C73F38045}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoObservables.Api.Aplication.Test", "GeoObservables.Api.Aplication.Test\GeoObservables.Api.Aplication.Test.csproj", "{92D21FB0-DACF-4289-A230-898DC06CE582}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoObservables.Api.Aplication.Unit.Test", "GeoObservables.Api.Aplication.Unit.Test\GeoObservables.Api.Aplication.Unit.Test.csproj", "{8C23C2AA-4842-4FF1-8BBF-159DEE6A61E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,10 +65,10 @@ Global
 		{494DC5DF-3B4D-4933-BDC2-779C73F38045}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{494DC5DF-3B4D-4933-BDC2-779C73F38045}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{494DC5DF-3B4D-4933-BDC2-779C73F38045}.Release|Any CPU.Build.0 = Release|Any CPU
-		{92D21FB0-DACF-4289-A230-898DC06CE582}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{92D21FB0-DACF-4289-A230-898DC06CE582}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{92D21FB0-DACF-4289-A230-898DC06CE582}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{92D21FB0-DACF-4289-A230-898DC06CE582}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C23C2AA-4842-4FF1-8BBF-159DEE6A61E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C23C2AA-4842-4FF1-8BBF-159DEE6A61E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C23C2AA-4842-4FF1-8BBF-159DEE6A61E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C23C2AA-4842-4FF1-8BBF-159DEE6A61E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -86,7 +86,7 @@ Global
 		{8EE94684-C988-45EA-A0B3-294F73282878} = {473957B3-A7E3-43BB-85AB-8267B57BB726}
 		{BA59571E-97BB-451C-8F75-B24F994150D1} = {1784B130-9C22-4542-9109-56E0D45ECADA}
 		{494DC5DF-3B4D-4933-BDC2-779C73F38045} = {BA59571E-97BB-451C-8F75-B24F994150D1}
-		{92D21FB0-DACF-4289-A230-898DC06CE582} = {81994CEA-B4FF-4247-AC38-E83CFC93163E}
+		{8C23C2AA-4842-4FF1-8BBF-159DEE6A61E3} = {81994CEA-B4FF-4247-AC38-E83CFC93163E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {11D7C1C5-A8C5-4176-BE2A-520618D252FA}

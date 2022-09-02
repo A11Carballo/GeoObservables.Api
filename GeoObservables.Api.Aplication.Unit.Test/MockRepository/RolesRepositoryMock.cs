@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GeoObservables.Api.Aplication.Test.Stubs;
+﻿
+using GeoObservables.Api.Aplication.Unit.Test.Stubs;
 using GeoObservables.Api.DataAccess.Contracts.Entities;
 using GeoObservables.Api.DataAccess.Contracts.Repositories;
 using Moq;
 
-namespace GeoObservables.Api.Aplication.Test.MockRepository
+
+namespace GeoObservables.Api.Aplication.Unit.Test.MockRepository
 {
     public class RolesRepositoryMock
     {
@@ -19,8 +16,7 @@ namespace GeoObservables.Api.Aplication.Test.MockRepository
             Setup();
         }
 
-        [SetUp]
-        public void Setup()
+        private void Setup()
         {
             _rolesRepository.Setup((x) => x.Add(It.IsAny<RolesEntity>())).ReturnsAsync(RolesStub.roles_1);
             _rolesRepository.Setup((x) => x.DeleteAsync(It.Is<int>(p => p.Equals(3)))).Returns((Task<RolesEntity>)Task.Delay(3));
