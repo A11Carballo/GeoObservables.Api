@@ -31,7 +31,7 @@ namespace GeoObservables.Api.Aplication.Test
             //Preparación
 
             //Ejecución
-            var result = await _rolesServices.GetRol(1);
+            var result = await _rolesServices.GetRolRequest(1);
 
             //Aserción
             result.Role.Should().NotBeNullOrEmpty();

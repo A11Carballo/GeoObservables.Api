@@ -32,13 +32,23 @@ namespace GeoObservables.Api.Aplication.Services
             });
         }
 
-        public async Task<bool> DeleteRol(int idRol)
+        public async Task<bool> DeleteRol(RolesModel rol)
         {
             var retryPolity = Policy.Handle<Exception>().WaitAndRetryAsync(_maxTrys, i => _timeToWait);
 
             return await retryPolity.ExecuteAsync(async () =>
             {
-                return await _rolesRepository.DeleteAsyncBool(idRol);
+                return await _rolesRepository.DeleteAsyncBool(rol.Id);
+            });
+        }
+
+        public async Task<bool> DeleteRolRequest(int idRolRequest)
+        {
+            var retryPolity = Policy.Handle<Exception>().WaitAndRetryAsync(_maxTrys, i => _timeToWait);
+
+            return await retryPolity.ExecuteAsync(async () =>
+            {
+                return await _rolesRepository.DeleteAsyncBool(idRolRequest);
             });
         }
 
@@ -52,13 +62,23 @@ namespace GeoObservables.Api.Aplication.Services
             });
         }
 
-        public async Task<RolesModel> GetRol(int idRol)
+        public async Task<RolesModel> GetRol(RolesModel rol)
         {
             var retryPolity = Policy.Handle<Exception>().WaitAndRetryAsync(_maxTrys, i => _timeToWait);
 
             return await retryPolity.ExecuteAsync(async () =>
             {
-                return RolesMapper.Map(await _rolesRepository.Get(idRol));
+                return RolesMapper.Map(await _rolesRepository.Get(rol.Id));
+            });
+        }
+
+        public async Task<RolesModel> GetRolRequest(int idRolRequest)
+        {
+            var retryPolity = Policy.Handle<Exception>().WaitAndRetryAsync(_maxTrys, i => _timeToWait);
+
+            return await retryPolity.ExecuteAsync(async () =>
+            {
+                return RolesMapper.Map(await _rolesRepository.Get(idRolRequest));
             });
         }
 

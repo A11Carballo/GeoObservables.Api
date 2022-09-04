@@ -1,6 +1,7 @@
 ﻿using GeoObservables.Api.Aplication.Contracts.Services;
 using GeoObservables.Api.Aplication.Services;
 using GeoObservables.Api.Mappers;
+using GeoObservables.Api.Request;
 using GeoObservables.Api.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,7 +26,7 @@ namespace GeoObservables.Api.Controllers
         /// <summary>
         /// GET Rol
         /// </summary>
-        /// <param name="idRol"></param>
+        /// <param name="Rol"></param>
         /// <returns></returns>
         [Produces("application/json", Type = typeof(RolesViewModel))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RolesViewModel))]
@@ -33,9 +34,10 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(RolesViewModel))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(RolesViewModel))]
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(RolesViewModel))]
-        [HttpGet("{idRol}")]
-        public async Task<RolesViewModel> Get(int idRol) =>
-             RolesMapper.Map(await _rolesServices.GetRol(idRol));
+        [HttpGet("{Rol}")]
+        public async Task<RolesViewModel> Get([FromBody] RolesViewModel Rol) =>
+             RolesMapper.Map(await _rolesServices.GetRol(RolesMapper.Map(Rol)));
+
 
         /// <summary>
         /// POST Rol
@@ -55,7 +57,7 @@ namespace GeoObservables.Api.Controllers
         /// <summary>
         /// Delete Rol
         /// </summary>
-        /// <param name="idRol"></param>
+        /// <param name="Rol"></param>
         /// <returns></returns>
         [Produces("application/json", Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
@@ -63,8 +65,9 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(bool))]
-        [HttpDelete("{idRol}")]
-        public async Task<bool> DeleteRol(int idRol) => await _rolesServices.DeleteRol(idRol);
+        [HttpDelete("{Rol}")]
+        public async Task<bool> DeleteRol([FromBody] RolesViewModel Rol) => await _rolesServices.DeleteRol(RolesMapper.Map(Rol));
+
 
         /// <summary>
         /// PUT Rol
@@ -108,8 +111,52 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(bool))]
-        [HttpGet("exist/{idRol}")]
-        public async Task<bool> ExistRol(int idRol) =>  await _rolesServices.ExistRol(idRol);
+        [HttpGet("request/exist/{RolRequest}")]
+        public async Task<bool> ExistRol([FromBody] RolesRequest RolRequest) =>  await _rolesServices.ExistRol(RolRequest.Id);
+
+        /// <summary>
+        /// Delete Rol Request
+        /// </summary>
+        /// <param name="RolRequest"></param>
+        /// <returns></returns>
+        [Produces("application/json", Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
+        [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(bool))]
+        [HttpDelete("request/{RolRequest}")]
+        public async Task<bool> DeleteRolRequest([FromBody] RolesRequest RolRequest) => await _rolesServices.DeleteRolRequest(RolRequest.Id);
+
+        /// <summary>
+        /// GET Rol Request
+        /// </summary>
+        /// <param name="RolRequest"></param>
+        /// <returns></returns>
+        [Produces("application/json", Type = typeof(RolesViewModel))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RolesViewModel))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(RolesViewModel))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(RolesViewModel))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(RolesViewModel))]
+        [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(RolesViewModel))]
+        [HttpGet("request/{RolRequest}")]
+        public async Task<RolesViewModel> GetRequest([FromBody] RolesRequest RolRequest) =>
+             RolesMapper.Map(await _rolesServices.GetRolRequest(RolRequest.Id));
+
+        /// <summary>
+        /// GET Rol By Rol Request
+        /// </summary>
+        /// <param name="RolesRolRequest"></param>
+        /// <returns></returns>
+        [Produces("application/json", Type = typeof(RolesViewModel))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RolesViewModel))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(RolesViewModel))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(RolesViewModel))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(RolesViewModel))]
+        [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(RolesViewModel))]
+        [HttpGet("rolbyrolrequest/{RolesRolRequest}")]
+        public async Task<RolesViewModel> GetRolByRolRequest([FromBody] RolesRolRequest RolbyRolRequest) =>
+             RolesMapper.Map(await _rolesServices.GetRolByRol(RolbyRolRequest.Role));
     }
 
 }
