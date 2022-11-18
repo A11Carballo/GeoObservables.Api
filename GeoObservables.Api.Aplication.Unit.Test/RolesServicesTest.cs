@@ -8,7 +8,7 @@ using GeoObservables.Api.Aplication.Unit.Test.MockRepository;
 using GeoObservables.Api.DataAccess.Contracts.Repositories;
 using Microsoft.Extensions.Logging;
 using Moq;
-
+/*
 namespace GeoObservables.Api.Aplication.Test
 {
     [TestClass]
@@ -55,3 +55,4 @@ namespace GeoObservables.Api.Aplication.Test
         }
     }
 }
+*/

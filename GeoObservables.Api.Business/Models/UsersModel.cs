@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 namespace GeoObservables.Api.Business.Models { 
     public class UsersModel
     {
+        #region Constructor & Destructor
+        /// <summary>
+        /// Initializes a new instance of UsersModel class.
+        /// </summary>
         public UsersModel()
         {
         }
@@ -20,6 +24,8 @@ namespace GeoObservables.Api.Business.Models {
             this.DateCreated = DateTime.Today;
             this.Active = active;
         }
+        #endregion
+
         public int Id { get; set; }
         public string User { get; set; }
         public string Mail { get; set; }
