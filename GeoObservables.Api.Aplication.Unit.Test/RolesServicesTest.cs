@@ -6,6 +6,7 @@ using GeoObservables.Api.Aplication.Contracts.Services;
 using GeoObservables.Api.Aplication.Services;
 using GeoObservables.Api.Aplication.Unit.Test.MockRepository;
 using GeoObservables.Api.DataAccess.Contracts.Repositories;
+using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace GeoObservables.Api.Aplication.Test
@@ -15,14 +16,14 @@ namespace GeoObservables.Api.Aplication.Test
     {
         public static IRolesServices _rolesServices;
 
-
         [ClassInitialize()]
         public static void Setup(TestContext context) 
         {
             Mock<IRolesRepository> _rolesrepository = new RolesRepositoryMock()._rolesRepository;
             Mock<IAppConfig> _appConfig = new AppConfigMock()._appConfig;
+            Mock<ILogger> _logger = new LoggerMock()._logger;
 
-            _rolesServices = new RolesServices(_rolesrepository.Object, _appConfig.Object);
+            _rolesServices = new RolesServices(_rolesrepository.Object, _appConfig.Object, _logger.Object);
         }
 
         [TestMethod]
