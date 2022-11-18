@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using GeoObservables.Api.DataAccess.Contracts;
@@ -72,5 +73,7 @@ namespace GeoObservables.Api.DataAccess.Repositories
 
             return updateEntity.Entity;
         }
+
+        public async Task<IEnumerable<HFlowdataEntity>> GetByFilter(Expression<Func<HFlowdataEntity, bool>> filter = null) => await _geoObservablesDBContext.Set<HFlowdataEntity>().Where(filter).ToListAsync();
     }
 }

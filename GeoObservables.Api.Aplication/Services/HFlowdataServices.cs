@@ -1,8 +1,11 @@
-﻿using GeoObservables.Api.Aplication.Contracts.Configuration;
+﻿using System.Linq.Expressions;
+using GeoObservables.Api.Aplication.Contracts.Configuration;
 using GeoObservables.Api.Aplication.Contracts.Services;
 using GeoObservables.Api.Business.Models;
+using GeoObservables.Api.DataAccess.Contracts.Entities;
 using GeoObservables.Api.DataAccess.Contracts.Repositories;
 using GeoObservables.Api.DataAccess.Mappers;
+using GeoObservables.Api.DataAccess.Repositories;
 using Polly;
 
 namespace GeoObservables.Api.Aplication.Services
@@ -71,6 +74,20 @@ namespace GeoObservables.Api.Aplication.Services
             {
                 return (HFlowdataMapper.Map(await _hFlowdataServices.Update(HFlowdataMapper.Map(HFlowdata))));
             });
+        }
+
+        public async Task<HFlowdataModel> GetByFilterOrigin(Expression<Func<HFlowdataEntity, bool>> filter = null)
+        {
+
+            var retryPolity = Policy.Handle<Exception>().WaitAndRetryAsync(_maxTrys, i => _timeToWait);
+
+            return await retryPolity.ExecuteAsync(async () =>
+            {
+                var HFlowdataFilter = await _hFlowdataServices.GetByFilter(filter);
+
+                return HFlowdataMapper.Map(HFlowdataFilter.First());
+            });
+
         }
     }
 }

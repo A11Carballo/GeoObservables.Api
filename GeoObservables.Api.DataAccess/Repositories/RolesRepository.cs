@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using GeoObservables.Api.DataAccess.Contracts;
@@ -39,9 +41,20 @@ namespace GeoObservables.Api.DataAccess.Repositories
             return Entity;
         }
 
-        public async Task<bool> DeleteAsyncBool(int id)
+        public async Task<bool> DeleteAsyncBool(int idEntity)
         {
-            throw new NotImplementedException();
+            var entityDelete = await _geoObservablesDBContext.Roles.SingleAsync(x => x.Id == idEntity);
+
+            if (entityDelete != null)
+            {
+                _geoObservablesDBContext.Roles.Remove(entityDelete);
+
+                await _geoObservablesDBContext.SaveChangesAsync();
+
+                return true;
+            }
+
+            return false;
         }
 
         public async Task<bool> Exist(int id) => (await Get(id)).Role.Any();
@@ -70,5 +83,8 @@ namespace GeoObservables.Api.DataAccess.Repositories
 
             return updateEntity.Entity;
         }
+
+        public async Task<IEnumerable<RolesEntity>> GetByFilter(Expression<Func<RolesEntity, bool>> filter = null) =>  await _geoObservablesDBContext.Set<RolesEntity>().Where(filter).ToListAsync();
+        
     }
 }

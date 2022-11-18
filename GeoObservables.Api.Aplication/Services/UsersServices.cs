@@ -1,16 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using GeoObservables.Api.Aplication.Contracts.Configuration;
 using GeoObservables.Api.Aplication.Contracts.Services;
 using GeoObservables.Api.Aplication.Login;
 using GeoObservables.Api.Business.Models;
+using GeoObservables.Api.DataAccess.Contracts.Entities;
 using GeoObservables.Api.DataAccess.Contracts.Repositories;
 using GeoObservables.Api.DataAccess.Mappers;
 using GeoObservables.Api.DataAccess.Repositories;
+using Microsoft.Extensions.Logging;
 using Polly;
+using Serilog.Core;
 
 namespace GeoObservables.Api.Aplication.Services
 {
@@ -21,7 +25,9 @@ namespace GeoObservables.Api.Aplication.Services
         private readonly TimeSpan _timeToWait;
         private readonly IUsersRepository _usersRepository;
         private readonly IRolesServices _rolesServices;
-        public UsersServices(IUsersRepository usersRepository, IAppConfig appConfig, IRolesServices rolesServices)
+        private readonly ILogger<UsersServices> logger;
+
+        public UsersServices(IUsersRepository usersRepository, IAppConfig appConfig, IRolesServices rolesServices, ILogger<UsersServices> logger)
         {
             _usersRepository = usersRepository;
             _appConfig = appConfig;
@@ -29,6 +35,7 @@ namespace GeoObservables.Api.Aplication.Services
 
             _maxTrys = _appConfig.MaxTrys();
             _timeToWait = TimeSpan.FromSeconds(_appConfig.SecondsToWait());
+            this.logger = logger;
         }
 
         public async Task<UsersModel> GetUser(int idUser)
@@ -37,6 +44,7 @@ namespace GeoObservables.Api.Aplication.Services
 
             return await retryPolity.ExecuteAsync(async () =>
             {
+                logger.LogInformation($"Getting {idUser} User");
                 return UsersMapper.Map(await _usersRepository.Get(idUser));
             });
         }
@@ -188,6 +196,20 @@ namespace GeoObservables.Api.Aplication.Services
             {
                 return await _usersRepository.Exist(idUser);
             });
+        }
+
+        public async Task<UsersModel> GetByFilterUsers(Expression<Func<UsersEntity, bool>> filter = null)
+        {
+
+            var retryPolity = Policy.Handle<Exception>().WaitAndRetryAsync(_maxTrys, i => _timeToWait);
+
+            return await retryPolity.ExecuteAsync(async () =>
+            {
+                var UsersFilter = await _usersRepository.GetByFilter(filter);
+
+                return UsersMapper.Map(UsersFilter.First());
+            });
+
         }
     }
 }

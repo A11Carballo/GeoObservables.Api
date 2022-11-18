@@ -1,6 +1,8 @@
-﻿using GeoObservables.Api.Aplication.Contracts.Configuration;
+﻿using System.Linq.Expressions;
+using GeoObservables.Api.Aplication.Contracts.Configuration;
 using GeoObservables.Api.Aplication.Contracts.Services;
 using GeoObservables.Api.Business.Models;
+using GeoObservables.Api.DataAccess.Contracts.Entities;
 using GeoObservables.Api.DataAccess.Contracts.Repositories;
 using GeoObservables.Api.DataAccess.Mappers;
 using GeoObservables.Api.DataAccess.Repositories;
@@ -82,6 +84,20 @@ namespace GeoObservables.Api.Aplication.Services
             {
                 return await _originRepository.Exist(idRol);
             });
+        }
+
+        public async Task<OriginModel> GetByFilterOrigin(Expression<Func<OriginEntity, bool>> filter = null)
+        {
+
+            var retryPolity = Policy.Handle<Exception>().WaitAndRetryAsync(_maxTrys, i => _timeToWait);
+
+            return await retryPolity.ExecuteAsync(async () =>
+            {
+                var OoriginFilter = await _originRepository.GetByFilter(filter);
+
+                return OriginMapper.Map(OoriginFilter.First());
+            });
+
         }
     }
 }

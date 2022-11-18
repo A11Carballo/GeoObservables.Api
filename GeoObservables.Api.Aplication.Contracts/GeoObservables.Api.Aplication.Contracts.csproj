@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GeoObservables.Api.Business\GeoObservables.Api.Business.csproj" />
+    <ProjectReference Include="..\GeoObservables.Api.DataAccess.Contracts\GeoObservables.Api.DataAccess.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

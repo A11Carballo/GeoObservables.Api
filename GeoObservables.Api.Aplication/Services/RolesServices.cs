@@ -1,6 +1,8 @@
-﻿using GeoObservables.Api.Aplication.Contracts.Configuration;
+﻿using System.Linq.Expressions;
+using GeoObservables.Api.Aplication.Contracts.Configuration;
 using GeoObservables.Api.Aplication.Contracts.Services;
 using GeoObservables.Api.Business.Models;
+using GeoObservables.Api.DataAccess.Contracts.Entities;
 using GeoObservables.Api.DataAccess.Contracts.Repositories;
 using GeoObservables.Api.DataAccess.Mappers;
 using Polly;
@@ -62,13 +64,13 @@ namespace GeoObservables.Api.Aplication.Services
             });
         }
 
-        public async Task<RolesModel> GetRol(RolesModel rol)
+        public async Task<RolesModel> GetRol(int idRol, string rol)
         {
             var retryPolity = Policy.Handle<Exception>().WaitAndRetryAsync(_maxTrys, i => _timeToWait);
 
             return await retryPolity.ExecuteAsync(async () =>
             {
-                return RolesMapper.Map(await _rolesRepository.Get(rol.Id));
+                return RolesMapper.Map(await _rolesRepository.Get(idRol));
             });
         }
 
@@ -110,6 +112,20 @@ namespace GeoObservables.Api.Aplication.Services
             {
                 return await _rolesRepository.Exist(idRol);
             });
+        }
+
+        public async Task<RolesModel> GetByFilterRol(Expression<Func<RolesEntity, bool>> filter = null)
+        {
+
+            var retryPolity = Policy.Handle<Exception>().WaitAndRetryAsync(_maxTrys, i => _timeToWait);
+
+            return await retryPolity.ExecuteAsync(async () =>
+            {
+                var RolesFilter = await _rolesRepository.GetByFilter(filter);
+
+                return RolesMapper.Map(RolesFilter.First());
+            });
+
         }
 
     }

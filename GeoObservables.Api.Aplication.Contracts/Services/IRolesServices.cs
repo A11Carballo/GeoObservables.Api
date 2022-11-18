@@ -1,10 +1,12 @@
-﻿using GeoObservables.Api.Business.Models;
+﻿using System.Linq.Expressions;
+using GeoObservables.Api.Business.Models;
+using GeoObservables.Api.DataAccess.Contracts.Entities;
 
 namespace GeoObservables.Api.Aplication.Contracts.Services
 {
     public interface IRolesServices
     {
-        Task<RolesModel> GetRol(RolesModel rol);
+        Task<RolesModel> GetRol(int idRol, string rol);
         Task<RolesModel> AddRol(RolesModel rol);
         Task<IEnumerable<RolesModel>> GetAllRoles();
         Task<bool> DeleteRol(RolesModel rol);
@@ -13,5 +15,6 @@ namespace GeoObservables.Api.Aplication.Contracts.Services
         Task<bool> ExistRol(int idRol);
         Task<bool> DeleteRolRequest(int id);
         Task<RolesModel> GetRolRequest(int id);
+        Task<RolesModel> GetByFilterRol(Expression<Func<RolesEntity, bool>> filter = null);
     }
 }

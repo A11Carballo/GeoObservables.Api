@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 using GeoObservables.Api.DataAccess.Contracts;
 using GeoObservables.Api.DataAccess.Contracts.Entities;
 using GeoObservables.Api.DataAccess.Contracts.Repositories;
@@ -65,5 +66,7 @@ namespace GeoObservables.Api.DataAccess.Repositories
 
             return updateEntity.Entity;
         }
+
+        public async Task<IEnumerable<OriginEntity>> GetByFilter(Expression<Func<OriginEntity, bool>> filter = null) => await _geoObservablesDBContext.Set<OriginEntity>().Where(filter).ToListAsync();
     }
 }
