@@ -17,16 +17,19 @@ namespace GeoObservables.Api.Aplication.Services
         private readonly IAppConfig _appConfig;
         private readonly int _maxTrys;
         private readonly TimeSpan _timeToWait;
-        private readonly ILogger<HFlowdataServices> logger;
+        private readonly ILogger<HFlowdataServices> _logger;
 
         public HFlowdataServices(IHFlowdataRepository hFlowdataServices, IAppConfig appConfig, ILogger<HFlowdataServices> logger)
         {
-            _hFlowdataServices = hFlowdataServices;
-            _appConfig = appConfig;
+            this._hFlowdataServices = hFlowdataServices;
 
-            _maxTrys = _appConfig.MaxTrys();
-            _timeToWait = TimeSpan.FromSeconds(_appConfig.SecondsToWait());
-            this.logger = logger;
+            this._appConfig = appConfig;
+
+            this._maxTrys = _appConfig.MaxTrys();
+
+            this._timeToWait = TimeSpan.FromSeconds(_appConfig.SecondsToWait());
+
+            this._logger = logger;
         }
 
         public async Task<HFlowdataModel> AddHFlowdata(HFlowdataModel HFlowdata)
@@ -35,7 +38,8 @@ namespace GeoObservables.Api.Aplication.Services
 
             return await retryPolity.ExecuteAsync(async () =>
             {
-                logger.LogInformation($"AddHFlowdata {HFlowdata} HFlowdata");
+                this._logger.LogInformation($"AddHFlowdata {HFlowdata} HFlowdata");
+
                 return HFlowdataMapper.Map(await _hFlowdataServices.Add(HFlowdataMapper.Map(HFlowdata)));
             });
         }
@@ -46,7 +50,8 @@ namespace GeoObservables.Api.Aplication.Services
 
             return await retryPolity.ExecuteAsync(async () =>
             {
-                logger.LogInformation($"DeleteHFlowdata {idHData} idHData");
+                this._logger.LogInformation($"DeleteHFlowdata {idHData} idHData");
+
                 return await _hFlowdataServices.DeleteAsyncBool(idHData);
             });
         }
@@ -57,7 +62,8 @@ namespace GeoObservables.Api.Aplication.Services
 
             return await retryPolity.ExecuteAsync(async () =>
             {
-                logger.LogInformation($"GetAllHFlows");
+                this._logger.LogInformation($"GetAllHFlows");
+
                 return (await _hFlowdataServices.GetAll()).Select(HFlowdataMapper.Map);
             });
         }
@@ -68,7 +74,8 @@ namespace GeoObservables.Api.Aplication.Services
 
             return await retryPolity.ExecuteAsync(async () =>
             {
-                logger.LogInformation($"GetHFlowdata {idHData} idHData");
+                this._logger.LogInformation($"GetHFlowdata {idHData} idHData");
+
                 return HFlowdataMapper.Map(await _hFlowdataServices.Get(idHData));
             });
         }
@@ -79,7 +86,8 @@ namespace GeoObservables.Api.Aplication.Services
 
             return await retryPolity.ExecuteAsync(async () =>
             {
-                logger.LogInformation($"UpdateHFlowdata {HFlowdata} HFlowdata");
+                this._logger.LogInformation($"UpdateHFlowdata {HFlowdata} HFlowdata");
+
                 return (HFlowdataMapper.Map(await _hFlowdataServices.Update(HFlowdataMapper.Map(HFlowdata))));
             });
         }
@@ -91,7 +99,7 @@ namespace GeoObservables.Api.Aplication.Services
 
             return await retryPolity.ExecuteAsync(async () =>
             {
-                logger.LogInformation($"GetByFilterOrigin {filter} filter");
+                this._logger.LogInformation($"GetByFilterOrigin {filter} filter");
 
                 var HFlowdataFilter = await _hFlowdataServices.GetByFilter(filter);
 

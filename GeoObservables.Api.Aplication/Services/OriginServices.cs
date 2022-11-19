@@ -18,16 +18,19 @@ namespace GeoObservables.Api.Aplication.Services
         private readonly IAppConfig _appConfig;
         private readonly int _maxTrys;
         private readonly TimeSpan _timeToWait;
-        private readonly ILogger<OriginServices> logger;
+        private readonly ILogger<OriginServices> _logger;
 
         public OriginServices(IOriginRepository originRepository, IAppConfig appConfig, ILogger<OriginServices> logger)
         {
-            _originRepository = originRepository;
-            _appConfig = appConfig;
+            this._originRepository = originRepository;
 
-            _maxTrys = _appConfig.MaxTrys();
-            _timeToWait = TimeSpan.FromSeconds(_appConfig.SecondsToWait());
-            this.logger = logger;
+            this._appConfig = appConfig;
+
+            this._maxTrys = _appConfig.MaxTrys();
+
+            this._timeToWait = TimeSpan.FromSeconds(_appConfig.SecondsToWait());
+
+            this._logger = logger;
         }
 
         public async Task<OriginModel> AddOrigin(OriginModel origin)
@@ -36,7 +39,8 @@ namespace GeoObservables.Api.Aplication.Services
 
             return await retryPolity.ExecuteAsync(async () =>
             {
-                logger.LogInformation($"AddOrigin {origin} origin");
+                this._logger.LogInformation($"AddOrigin {origin} origin");
+
                 return OriginMapper.Map(await _originRepository.Add(OriginMapper.Map(origin)));
             });
         }
@@ -47,7 +51,8 @@ namespace GeoObservables.Api.Aplication.Services
 
             return await retryPolity.ExecuteAsync(async () =>
             {
-                logger.LogInformation($"DeleteOrigin {idOrigin} idOrigin");
+                this._logger.LogInformation($"DeleteOrigin {idOrigin} idOrigin");
+
                 return await _originRepository.DeleteAsyncBool(idOrigin);
             });
         }
@@ -58,7 +63,7 @@ namespace GeoObservables.Api.Aplication.Services
 
             return await retryPolity.ExecuteAsync(async () =>
             {
-                logger.LogInformation($"GetAllOrigins");
+                this._logger.LogInformation($"GetAllOrigins");
                 return (await _originRepository.GetAll()).Select(OriginMapper.Map);
             });
         }
@@ -69,7 +74,8 @@ namespace GeoObservables.Api.Aplication.Services
 
             return await retryPolity.ExecuteAsync(async () =>
             {
-                logger.LogInformation($"GetOrigin {idOrigin} idOrigin");
+                this._logger.LogInformation($"GetOrigin {idOrigin} idOrigin");
+
                 return OriginMapper.Map(await _originRepository.Get(idOrigin));
             });
         }
@@ -80,7 +86,8 @@ namespace GeoObservables.Api.Aplication.Services
 
             return await retryPolity.ExecuteAsync(async () =>
             {
-                logger.LogInformation($"UpdateOrigin {origin} origin");
+                this._logger.LogInformation($"UpdateOrigin {origin} origin");
+
                 return (OriginMapper.Map(await _originRepository.Update(OriginMapper.Map(origin))));
             });
         }
@@ -91,7 +98,8 @@ namespace GeoObservables.Api.Aplication.Services
 
             return await retryPolity.ExecuteAsync(async () =>
             {
-                logger.LogInformation($"ExistOrigin {idRol} idRol");
+                this._logger.LogInformation($"ExistOrigin {idRol} idRol");
+
                 return await _originRepository.Exist(idRol);
             });
         }
@@ -103,7 +111,7 @@ namespace GeoObservables.Api.Aplication.Services
 
             return await retryPolity.ExecuteAsync(async () =>
             {
-                logger.LogInformation($"GetByFilterOrigin {filter} filter");
+                this._logger.LogInformation($"GetByFilterOrigin {filter} filter");
 
                 var OoriginFilter = await _originRepository.GetByFilter(filter);
 
