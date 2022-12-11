@@ -155,20 +155,20 @@ namespace GeoObservables.Api.Controllers
             }
         }
 
-         //Request
+        //Request
 
-         /// <summary>
-         /// Exist Rol
-         /// </summary>
-         /// <param name="idRol"></param>
-         /// <returns></returns>
-         [Produces("application/json", Type = typeof(bool))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(bool))]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(bool))]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-        [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(bool))]
-        [HttpGet("request/exist/{RolRequest}")]
+        /// <summary>
+        /// Exist Rol
+        /// </summary>
+        /// <param name="RolRequest"></param>
+        /// <returns></returns>
+        [Produces("application/json", Type = typeof(RolesBoolResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RolesBoolResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(RolesBoolResponse))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(RolesBoolResponse))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(RolesBoolResponse))]
+        [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(RolesBoolResponse))]
+        [HttpGet("requestExit/")]
         public async Task<IActionResult> ExistRol([FromBody] RolesRequest RolRequest)
         {
             try
@@ -194,7 +194,7 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(RolesBoolResponse))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(RolesBoolResponse))]
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(RolesBoolResponse))]
-        [HttpDelete("request/{RolRequest}")]
+        [HttpDelete("request/")]
         public async Task<IActionResult> DeleteRolRequest([FromBody] RolesRequest RolRequest)  
         {
             try
@@ -252,7 +252,9 @@ namespace GeoObservables.Api.Controllers
         {
             try
             {
-                return Ok(new RolesResponse(RolesMapper.Map(await this._rolesServices.GetRolByRol(RolbyRolRequest.Role))));
+                var Response = new RolesResponse(RolesMapper.Map(await this._rolesServices.GetRolByRol(RolbyRolRequest.Role)));
+
+                return Ok(Response);
             }
             catch (GeneralException ex)
             {
