@@ -1,5 +1,4 @@
 ﻿using GeoObservables.Api.Aplication.Contracts.Services;
-using GeoObservables.Api.Aplication.Services;
 using GeoObservables.Api.Business.Exceptions;
 using GeoObservables.Api.Mappers;
 using GeoObservables.Api.Request;
@@ -41,7 +40,9 @@ namespace GeoObservables.Api.Controllers
         {
             try
             {
-                return Ok(new RolesResponse(RolesMapper.Map(await this._rolesServices.GetRol(IdRol))));
+                var Response = new RolesResponse(RolesMapper.Map(await this._rolesServices.GetRol(IdRol)));
+
+                return Ok(Response);
             }
             catch (GeneralException ex)
             {
@@ -65,7 +66,9 @@ namespace GeoObservables.Api.Controllers
         {
             try
             {
-                return Ok(new RolesResponse(RolesMapper.Map(await this._rolesServices.AddRol(RolesMapper.Map(rol)))));
+                var Response = new RolesResponse(RolesMapper.Map(await this._rolesServices.AddRol(RolesMapper.Map(rol))));
+
+                return Ok(Response);
             } 
             catch (GeneralException ex)
             {
@@ -89,7 +92,9 @@ namespace GeoObservables.Api.Controllers
         {
             try
             {
-                return Ok(new RolesBoolResponse(await this._rolesServices.DeleteRol(RolesMapper.Map(Rol))));
+                var Response = new RolesBoolResponse(await this._rolesServices.DeleteRol(RolesMapper.Map(Rol)));
+
+                return Ok(Response);
             }
             catch (GeneralException ex)
             {
@@ -114,7 +119,9 @@ namespace GeoObservables.Api.Controllers
         {
             try
             {
-                return Ok(new RolesResponse(RolesMapper.Map(await this._rolesServices.UpdateRol(RolesMapper.Map(rol)))));
+                var Response = new RolesResponse(RolesMapper.Map(await this._rolesServices.UpdateRol(RolesMapper.Map(rol))));
+
+                return Ok(Response);
             }
             catch(GeneralException ex)
             {
@@ -138,7 +145,9 @@ namespace GeoObservables.Api.Controllers
         {
             try
             {
-                return Ok(new RolesResponse((await this._rolesServices.GetAllRoles()).Select(x => RolesMapper.Map(x)).ToList()));
+                var Response = new RolesResponse((await this._rolesServices.GetAllRoles()).Select(x => RolesMapper.Map(x)).ToList());
+
+                return Ok(Response);
             }
             catch (GeneralException ex)
             {
@@ -164,7 +173,9 @@ namespace GeoObservables.Api.Controllers
         {
             try
             {
-                return Ok(new RolesBoolResponse(await this._rolesServices.ExistRol(RolRequest.Id)));
+                var Response = new RolesBoolResponse(await this._rolesServices.ExistRol(RolRequest.Id));
+
+                return Ok(Response);
             }
             catch (GeneralException ex)
             {
@@ -188,7 +199,9 @@ namespace GeoObservables.Api.Controllers
         {
             try
             {
-                return Ok(new RolesBoolResponse(await this._rolesServices.DeleteRolRequest(RolRequest.Id)));
+                var Response = new RolesBoolResponse(await this._rolesServices.DeleteRolRequest(RolRequest.Id));
+
+                return Ok(Response);
             }
             catch (GeneralException ex)
             {
@@ -212,7 +225,9 @@ namespace GeoObservables.Api.Controllers
         {
             try
             {
-                return Ok(new RolesResponse(RolesMapper.Map(await this._rolesServices.GetRolRequest(RolRequest.Id))));
+                var Response = new RolesResponse(RolesMapper.Map(await this._rolesServices.GetRolRequest(RolRequest.Id)));
+
+                return Ok(Response);
             }
             catch (GeneralException ex)
             {

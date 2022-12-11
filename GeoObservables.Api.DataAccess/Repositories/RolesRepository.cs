@@ -18,38 +18,38 @@ namespace GeoObservables.Api.DataAccess.Repositories
 
         public RolesRepository(GeoObservablesDBContext geoObservablesDBContext)
         {
-            _geoObservablesDBContext = geoObservablesDBContext;
+            this._geoObservablesDBContext = geoObservablesDBContext;
         }
 
         public async Task<RolesEntity> Add(RolesEntity entity)
         {
-            await _geoObservablesDBContext.Roles.AddAsync(entity);
+            await this._geoObservablesDBContext.Roles.AddAsync(entity);
 
-            await _geoObservablesDBContext.SaveChangesAsync();
+            await this._geoObservablesDBContext.SaveChangesAsync();
 
             return entity;
         }
 
         public async Task<RolesEntity> DeleteAsync(int idEntity)
         {
-            var Entity = await _geoObservablesDBContext.Roles.SingleAsync(x => x.Id == idEntity);
+            var Entity = await this._geoObservablesDBContext.Roles.SingleAsync(x => x.Id == idEntity);
 
-            _geoObservablesDBContext.Remove(Entity);
+            this._geoObservablesDBContext.Remove(Entity);
 
-            await _geoObservablesDBContext.SaveChangesAsync();
+            await this._geoObservablesDBContext.SaveChangesAsync();
 
             return Entity;
         }
 
         public async Task<bool> DeleteAsyncBool(int idEntity)
         {
-            var entityDelete = await _geoObservablesDBContext.Roles.SingleAsync(x => x.Id == idEntity);
+            var entityDelete = await this._geoObservablesDBContext.Roles.SingleAsync(x => x.Id == idEntity);
 
             if (entityDelete != null)
             {
-                _geoObservablesDBContext.Roles.Remove(entityDelete);
+                this._geoObservablesDBContext.Roles.Remove(entityDelete);
 
-                await _geoObservablesDBContext.SaveChangesAsync();
+                await this._geoObservablesDBContext.SaveChangesAsync();
 
                 return true;
             }
@@ -59,32 +59,31 @@ namespace GeoObservables.Api.DataAccess.Repositories
 
         public async Task<bool> Exist(int id) => (await Get(id)).Role.Any();
 
-        public async Task<RolesEntity> Get(int idEntity) => await _geoObservablesDBContext.Roles.FirstOrDefaultAsync(x => x.Id == idEntity);
+        public async Task<RolesEntity> Get(int idEntity) => await this._geoObservablesDBContext.Roles.FirstOrDefaultAsync(x => x.Id == idEntity);
 
-        public async Task<RolesEntity> GetByRol(string rol) => await _geoObservablesDBContext.Roles.FirstOrDefaultAsync(x => x.Role == rol);
+        public async Task<RolesEntity> GetByRol(string rol) => await this._geoObservablesDBContext.Roles.FirstOrDefaultAsync(x => x.Role == rol);
 
-        public async Task<IEnumerable<RolesEntity>> GetAll() => await _geoObservablesDBContext.Set<RolesEntity>().ToListAsync();
+        public async Task<IEnumerable<RolesEntity>> GetAll() => await this._geoObservablesDBContext.Set<RolesEntity>().ToListAsync();
 
 
         public async Task<RolesEntity> Update(int id, RolesEntity entity)
         {
-            var updateEntity = _geoObservablesDBContext.Roles.Update(entity);
+            var updateEntity = this._geoObservablesDBContext.Roles.Update(entity);
 
-            await _geoObservablesDBContext.SaveChangesAsync();
+            await this._geoObservablesDBContext.SaveChangesAsync();
 
             return updateEntity.Entity;
         }
 
         public async Task<RolesEntity> Update(RolesEntity entity)
         {
-            var updateEntity = _geoObservablesDBContext.Roles.Update(entity);
+            var updateEntity = this._geoObservablesDBContext.Roles.Update(entity);
 
-            await _geoObservablesDBContext.SaveChangesAsync();
+            await this._geoObservablesDBContext.SaveChangesAsync();
 
             return updateEntity.Entity;
         }
 
-        public async Task<IEnumerable<RolesEntity>> GetByFilter(Expression<Func<RolesEntity, bool>> filter = null) =>  await _geoObservablesDBContext.Set<RolesEntity>().Where(filter).ToListAsync();
-        
+        public async Task<IEnumerable<RolesEntity>> GetByFilter(Expression<Func<RolesEntity, bool>> filter = null) =>  await this._geoObservablesDBContext.Set<RolesEntity>().Where(filter).ToListAsync();  
     }
 }
