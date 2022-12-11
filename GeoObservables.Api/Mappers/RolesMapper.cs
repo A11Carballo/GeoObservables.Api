@@ -5,18 +5,18 @@ namespace GeoObservables.Api.Mappers
 {
     public class RolesMapper
     {
-        public static RolesViewModel Map(RolesModel dto)
+        public static RolesViewModel? Map(RolesModel dto)
         {
-            return new RolesViewModel()
+            return dto == null ? null : new RolesViewModel()
             {
                 Id = dto.Id,
                 Role = dto.Role
             };
         }
 
-        public static RolesModel Map(RolesViewModel dto)
+        public static RolesModel? Map(RolesViewModel dto)
         {
-            return new RolesModel()
+            return dto == null ? null : new RolesModel()
             {
                 Id = dto.Id,
                 Role = dto.Role

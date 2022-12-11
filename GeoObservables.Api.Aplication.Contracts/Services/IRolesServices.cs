@@ -6,7 +6,7 @@ namespace GeoObservables.Api.Aplication.Contracts.Services
 {
     public interface IRolesServices
     {
-        Task<RolesModel> GetRol(int idRol, string rol);
+        Task<RolesModel> GetRol(int idRol);
         Task<RolesModel> AddRol(RolesModel rol);
         Task<IEnumerable<RolesModel>> GetAllRoles();
         Task<bool> DeleteRol(RolesModel rol);

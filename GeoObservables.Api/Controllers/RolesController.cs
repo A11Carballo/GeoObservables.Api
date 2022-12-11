@@ -1,7 +1,9 @@
 ﻿using GeoObservables.Api.Aplication.Contracts.Services;
 using GeoObservables.Api.Aplication.Services;
+using GeoObservables.Api.Business.Exceptions;
 using GeoObservables.Api.Mappers;
 using GeoObservables.Api.Request;
+using GeoObservables.Api.Response.Roles;
 using GeoObservables.Api.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,8 +19,8 @@ namespace GeoObservables.Api.Controllers
 
         public RolesController(ILogger<RolesController> logger, IRolesServices rolesServices)
         {
-            _logger = logger;
-            _rolesServices = rolesServices;
+            this._logger = logger;
+            this._rolesServices = rolesServices;
         }
 
         //CRUD
@@ -27,47 +29,73 @@ namespace GeoObservables.Api.Controllers
         /// GET Rol
         /// </summary>
         /// <param id="IdRol"></param
-        /// <param name="Rol"></param>
         /// <returns></returns>
-        [Produces("application/json", Type = typeof(RolesViewModel))]
+        [Produces("application/json", Type = typeof(RolesResponse))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RolesViewModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(RolesViewModel))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(RolesViewModel))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(RolesViewModel))]
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(RolesViewModel))]
-        [HttpGet("{IdRol}/{Rol}")]
-        public async Task<RolesViewModel> Get(int IdRol, string Rol) =>
-             RolesMapper.Map(await _rolesServices.GetRol(IdRol, Rol));
-
+        [HttpGet("{IdRol}")]
+        public async Task<IActionResult> Get(int IdRol) 
+        {
+            try
+            {
+                return Ok(new RolesResponse(RolesMapper.Map(await this._rolesServices.GetRol(IdRol))));
+            }
+            catch (GeneralException ex)
+            {
+                return BadRequest(new RolesResponse(new List<RolesViewModel>(), ex));
+            }
+        }
 
         /// <summary>
         /// POST Rol
         /// </summary>
         /// <param name="roles"></param>
         /// <returns></returns>
-        [Produces("application/json", Type = typeof(RolesViewModel))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RolesViewModel))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(RolesViewModel))]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(RolesViewModel))]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(RolesViewModel))]
-        [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(RolesViewModel))]
+        [Produces("application/json", Type = typeof(RolesResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RolesResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(RolesResponse))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(RolesResponse))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(RolesResponse))]
+        [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(RolesResponse))]
         [HttpPost]
-        public async Task<RolesViewModel> AddRol([FromBody] RolesViewModel rol) =>
-            RolesMapper.Map(await _rolesServices.AddRol(RolesMapper.Map(rol)));
+        public async Task<IActionResult> AddRol([FromBody] RolesViewModel rol)
+        {
+            try
+            {
+                return Ok(new RolesResponse(RolesMapper.Map(await this._rolesServices.AddRol(RolesMapper.Map(rol)))));
+            } 
+            catch (GeneralException ex)
+            {
+                return BadRequest(new RolesResponse(new List<RolesViewModel>(), ex));
+            }
+        }
 
         /// <summary>
         /// Delete Rol
         /// </summary>
         /// <param name="Rol"></param>
         /// <returns></returns>
-        [Produces("application/json", Type = typeof(bool))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(bool))]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(bool))]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-        [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(bool))]
+        [Produces("application/json", Type = typeof(RolesBoolResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RolesBoolResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(RolesBoolResponse))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(RolesBoolResponse))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(RolesBoolResponse))]
+        [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(RolesBoolResponse))]
         [HttpDelete]
-        public async Task<bool> DeleteRol([FromBody] RolesViewModel Rol) => await _rolesServices.DeleteRol(RolesMapper.Map(Rol));
+        public async Task<IActionResult> DeleteRol([FromBody] RolesViewModel Rol)  
+        {
+            try
+            {
+                return Ok(new RolesBoolResponse(await this._rolesServices.DeleteRol(RolesMapper.Map(Rol))));
+            }
+            catch (GeneralException ex)
+            {
+                return BadRequest(new RolesBoolResponse(ex));
+            }
+        }
 
 
         /// <summary>
@@ -75,92 +103,148 @@ namespace GeoObservables.Api.Controllers
         /// </summary>
         /// <param name="roles"></param>
         /// <returns></returns>
-        [Produces("application/json", Type = typeof(RolesViewModel))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RolesViewModel))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(RolesViewModel))]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(RolesViewModel))]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(RolesViewModel))]
-        [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(RolesViewModel))]
+        [Produces("application/json", Type = typeof(RolesResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RolesResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(RolesResponse))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(RolesResponse))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(RolesResponse))]
+        [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(RolesResponse))]
         [HttpPut]
-        public async Task<RolesViewModel> UpdateRoles([FromBody] RolesViewModel rol) =>
-            RolesMapper.Map(await _rolesServices.UpdateRol(RolesMapper.Map(rol)));
-
+        public async Task<IActionResult> UpdateRoles([FromBody] RolesViewModel rol)
+        {
+            try
+            {
+                return Ok(new RolesResponse(RolesMapper.Map(await this._rolesServices.UpdateRol(RolesMapper.Map(rol)))));
+            }
+            catch(GeneralException ex)
+            {
+                return BadRequest(new RolesResponse(new List<RolesViewModel>(), ex));
+            }
+        }
 
         /// <summary>
         /// GET All Roles
         /// </summary>
         /// <param></param>
         /// <returns></returns>
-        [Produces("application/json", Type = typeof(List<RolesViewModel>))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<RolesViewModel>))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(List<RolesViewModel>))]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(List<RolesViewModel>))]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(List<RolesViewModel>))]
-        [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(List<RolesViewModel>))]
+        [Produces("application/json", Type = typeof(List<RolesResponse>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<RolesResponse>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(List<RolesResponse>))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(List<RolesResponse>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(List<RolesResponse>))]
+        [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(List<RolesResponse>))]
         [HttpGet]
-        public async Task<IActionResult> GetAlRoless() =>
-             Ok(await _rolesServices.GetAllRoles());
+        public async Task<IActionResult> GetAlRoless()
+        {
+            try
+            {
+                return Ok(new RolesResponse((await this._rolesServices.GetAllRoles()).Select(x => RolesMapper.Map(x)).ToList()));
+            }
+            catch (GeneralException ex)
+            {
+                return BadRequest(new RolesResponse(new List<RolesViewModel>(), ex));
+            }
+        }
 
+         //Request
 
-        //Request
-
-        /// <summary>
-        /// Exist Rol
-        /// </summary>
-        /// <param name="idRol"></param>
-        /// <returns></returns>
-        [Produces("application/json", Type = typeof(bool))]
+         /// <summary>
+         /// Exist Rol
+         /// </summary>
+         /// <param name="idRol"></param>
+         /// <returns></returns>
+         [Produces("application/json", Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(bool))]
         [HttpGet("request/exist/{RolRequest}")]
-        public async Task<bool> ExistRol([FromBody] RolesRequest RolRequest) =>  await _rolesServices.ExistRol(RolRequest.Id);
+        public async Task<IActionResult> ExistRol([FromBody] RolesRequest RolRequest)
+        {
+            try
+            {
+                return Ok(new RolesBoolResponse(await this._rolesServices.ExistRol(RolRequest.Id)));
+            }
+            catch (GeneralException ex)
+            {
+                return BadRequest(new RolesBoolResponse(ex));
+            }
+        }
 
         /// <summary>
         /// Delete Rol Request
         /// </summary>
         /// <param name="RolRequest"></param>
         /// <returns></returns>
-        [Produces("application/json", Type = typeof(bool))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(bool))]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(bool))]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
-        [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(bool))]
+        [Produces("application/json", Type = typeof(RolesBoolResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RolesBoolResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(RolesBoolResponse))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(RolesBoolResponse))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(RolesBoolResponse))]
+        [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(RolesBoolResponse))]
         [HttpDelete("request/{RolRequest}")]
-        public async Task<bool> DeleteRolRequest([FromBody] RolesRequest RolRequest) => await _rolesServices.DeleteRolRequest(RolRequest.Id);
+        public async Task<IActionResult> DeleteRolRequest([FromBody] RolesRequest RolRequest)  
+        {
+            try
+            {
+                return Ok(new RolesBoolResponse(await this._rolesServices.DeleteRolRequest(RolRequest.Id)));
+            }
+            catch (GeneralException ex)
+            {
+                return BadRequest(new RolesBoolResponse(ex));
+            }
+        }
 
         /// <summary>
         /// GET Rol Request
         /// </summary>
         /// <param name="RolRequest"></param>
         /// <returns></returns>
-        [Produces("application/json", Type = typeof(RolesViewModel))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RolesViewModel))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(RolesViewModel))]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(RolesViewModel))]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(RolesViewModel))]
-        [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(RolesViewModel))]
+        [Produces("application/json", Type = typeof(RolesResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RolesResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(RolesResponse))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(RolesResponse))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(RolesResponse))]
+        [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(RolesResponse))]
         [HttpGet("request/{RolRequest}")]
-        public async Task<RolesViewModel> GetRequest([FromBody] RolesRequest RolRequest) =>
-             RolesMapper.Map(await _rolesServices.GetRolRequest(RolRequest.Id));
+        public async Task<IActionResult> GetRequest([FromBody] RolesRequest RolRequest)
+        {
+            try
+            {
+                return Ok(new RolesResponse(RolesMapper.Map(await this._rolesServices.GetRolRequest(RolRequest.Id))));
+            }
+            catch (GeneralException ex)
+            {
+                return BadRequest(new RolesResponse(new List<RolesViewModel>(), ex));
+            }
+        }
+        
 
         /// <summary>
         /// GET Rol By Rol Request
         /// </summary>
         /// <param name="RolesRolRequest"></param>
         /// <returns></returns>
-        [Produces("application/json", Type = typeof(RolesViewModel))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RolesViewModel))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(RolesViewModel))]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(RolesViewModel))]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(RolesViewModel))]
-        [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(RolesViewModel))]
+        [Produces("application/json", Type = typeof(RolesResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RolesResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(RolesResponse))]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(RolesResponse))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(RolesResponse))]
+        [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(RolesResponse))]
         [HttpGet("rolbyrolrequest/{RolesRolRequest}")]
-        public async Task<RolesViewModel> GetRolByRolRequest([FromBody] RolesRolRequest RolbyRolRequest) =>
-             RolesMapper.Map(await _rolesServices.GetRolByRol(RolbyRolRequest.Role));
+        public async Task<IActionResult> GetRolByRolRequest([FromBody] RolesRolRequest RolbyRolRequest)
+        {
+            try
+            {
+                return Ok(new RolesResponse(RolesMapper.Map(await this._rolesServices.GetRolByRol(RolbyRolRequest.Role))));
+            }
+            catch (GeneralException ex)
+            {
+                return BadRequest(new RolesResponse(new List<RolesViewModel>(), ex));
+            }
+        }
+            
     }
 
 }
