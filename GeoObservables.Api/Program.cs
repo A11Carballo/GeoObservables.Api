@@ -1,10 +1,13 @@
 using System.Text;
 using GeoObservables.Api.Config;
+using GeoObservables.Api.Controllers;
 using GeoObservables.Api.CrosssCutting.Register;
 using GeoObservables.Api.DataAccess;
 using GeoObservables.Api.DataAccess.Contracts;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -37,7 +40,7 @@ builder.Services.AddScoped<IGeoObservablesDBContext, GeoObservablesDBContext>();
 
 builder.Services.AddDbContext<GeoObservablesDBContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddApplicationInsightsTelemetry(configuration);
-
+builder.Services.AddMediatR(typeof(HFlowdataController).Assembly);
 
 IoCRegister.AddRegistration(builder.Services);
 

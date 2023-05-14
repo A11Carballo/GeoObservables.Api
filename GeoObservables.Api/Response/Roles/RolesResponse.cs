@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using GeoObservables.Api.Business.Aggregates;
+﻿using GeoObservables.Api.Business.Aggregates;
 using GeoObservables.Api.ViewModels;
 
 namespace GeoObservables.Api.Response.Roles

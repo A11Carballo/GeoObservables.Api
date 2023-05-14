@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GeoObservables.Api.Aplication.ApiCaller;
+﻿using GeoObservables.Api.Aplication.ApiCaller;
 using GeoObservables.Api.Aplication.Configuration;
 using GeoObservables.Api.Aplication.Contracts.ApiCaller;
 using GeoObservables.Api.Aplication.Contracts.Configuration;
