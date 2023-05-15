@@ -2,13 +2,13 @@
 using GeoObservables.Api.Commands.HFlowCommands;
 using MediatR;
 
-namespace GeoObservables.Api.Handlers
+namespace GeoObservables.Api.Handlers.HFHandlers
 {
-    public class DeleteHFlowdataCommandHandler : IRequestHandler<DeleteHFlowdataCommand, bool>
+    public class DeleteOriginCommandHandler : IRequestHandler<DeleteHFlowdataCommand, bool>
     {
         private readonly IHFlowdataServices _hFlowdataServices;
 
-        public DeleteHFlowdataCommandHandler(IHFlowdataServices hFlowdataServices)
+        public DeleteOriginCommandHandler(IHFlowdataServices hFlowdataServices)
         {
             _hFlowdataServices = hFlowdataServices;
         }

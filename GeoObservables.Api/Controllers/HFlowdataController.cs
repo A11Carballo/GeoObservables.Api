@@ -1,12 +1,9 @@
 ﻿using GeoObservables.Api.Aplication.Contracts.Services;
 using GeoObservables.Api.Commands.HFlowCommands;
-using GeoObservables.Api.Mappers;
 using GeoObservables.Api.Queries;
 using GeoObservables.Api.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace GeoObservables.Api.Controllers
 {

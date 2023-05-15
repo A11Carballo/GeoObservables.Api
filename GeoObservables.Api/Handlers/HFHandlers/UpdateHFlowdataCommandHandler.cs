@@ -4,13 +4,13 @@ using GeoObservables.Api.Mappers;
 using GeoObservables.Api.ViewModels;
 using MediatR;
 
-namespace GeoObservables.Api.Handlers
+namespace GeoObservables.Api.Handlers.HFHandlers
 {
-    public class UpdateHFlowdataCommandHandler : IRequestHandler<UpdateHFlowdataCommand, HFlowdataViewModel>
+    public class UpdateOriginCommandHandler : IRequestHandler<UpdateHFlowdataCommand, HFlowdataViewModel>
     {
         private readonly IHFlowdataServices _hFlowdataServices;
 
-        public UpdateHFlowdataCommandHandler(IHFlowdataServices hFlowdataServices)
+        public UpdateOriginCommandHandler(IHFlowdataServices hFlowdataServices)
         {
             _hFlowdataServices = hFlowdataServices;
         }

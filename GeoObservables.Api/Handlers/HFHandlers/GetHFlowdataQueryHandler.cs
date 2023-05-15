@@ -4,7 +4,7 @@ using GeoObservables.Api.Queries;
 using GeoObservables.Api.ViewModels;
 using MediatR;
 
-namespace GeoObservables.Api.Handlers
+namespace GeoObservables.Api.Handlers.HFHandlers
 {
     public class GetHFlowdataQueryHandler : IRequestHandler<GetHFlowdataQuery, HFlowdataViewModel>
     {

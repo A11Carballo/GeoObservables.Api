@@ -1,7 +1,11 @@
 ﻿using GeoObservables.Api.Aplication.Contracts.Services;
 using GeoObservables.Api.Aplication.Services;
+using GeoObservables.Api.Commands.HFlowCommands;
+using GeoObservables.Api.Commands.OriginCommands;
 using GeoObservables.Api.Mappers;
+using GeoObservables.Api.Queries;
 using GeoObservables.Api.ViewModels;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GeoObservables.Api.Controllers
@@ -14,10 +18,13 @@ namespace GeoObservables.Api.Controllers
 
         private readonly IOriginServices _originServices;
 
-        public OriginController(ILogger<OriginController> logger, IOriginServices originServices)
+        private readonly IMediator _mediator;
+
+        public OriginController(ILogger<OriginController> logger, IOriginServices originServices, IMediator mediator)
         {
             _logger = logger;
             _originServices = originServices;
+            _mediator = mediator;
         }
 
         //CRUD
@@ -35,7 +42,7 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(OriginViewModel))]
         [HttpGet("{idOri}")]
         public async Task<OriginViewModel> Get(int idOri) =>
-             OriginMapper.Map(await _originServices.GetOrigin(idOri));
+             await _mediator.Send(new GetOriginQuery { IdOrigin = idOri });
 
         /// <summary>
         /// POST Origin
@@ -50,7 +57,7 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(OriginViewModel))]
         [HttpPost]
         public async Task<OriginViewModel> AddOrigin([FromBody] OriginViewModel origin) =>
-            OriginMapper.Map(await _originServices.AddOrigin(OriginMapper.Map(origin)));
+            await _mediator.Send(new CreateOriginCommand { Origin = origin });
 
         /// <summary>
         /// Delete Origin
@@ -64,7 +71,7 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(bool))]
         [HttpDelete("{idOri}")]
-        public async Task<bool> DeleteRol(int idOri) => await _originServices.DeleteOrigin(idOri);
+        public async Task<bool> DeleteRol(int idOri) => await _mediator.Send(new DeleteOriginCommand { IdOrigin = idOri });
 
         /// <summary>
         /// PUT Origin
@@ -79,7 +86,7 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(OriginViewModel))]
         [HttpPut]
         public async Task<OriginViewModel> UpdateOrigin([FromBody] OriginViewModel origin) =>
-            OriginMapper.Map(await _originServices.UpdateOrigin(OriginMapper.Map(origin)));
+            await _mediator.Send(new UpdateOriginCommand { Origin = origin });
 
 
         /// <summary>
@@ -94,8 +101,7 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(List<OriginViewModel>))]
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(List<OriginViewModel>))]
         [HttpGet]
-        public async Task<IActionResult> GetAlRoless() =>
-             Ok(await _originServices.GetAllOrigins());
+        public async Task<IActionResult> GetAlRoless() => Ok(await _mediator.Send(new GetAllOriginQuery()));
 
         /// <summary>
         /// Exist Origin
