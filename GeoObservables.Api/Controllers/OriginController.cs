@@ -1,8 +1,5 @@
 ﻿using GeoObservables.Api.Aplication.Contracts.Services;
-using GeoObservables.Api.Aplication.Services;
-using GeoObservables.Api.Commands.HFlowCommands;
 using GeoObservables.Api.Commands.OriginCommands;
-using GeoObservables.Api.Mappers;
 using GeoObservables.Api.Queries;
 using GeoObservables.Api.ViewModels;
 using MediatR;
@@ -33,7 +30,7 @@ namespace GeoObservables.Api.Controllers
         /// GET Origin
         /// </summary>
         /// <param name="idOri"></param>
-        /// <returns></returns>
+        /// <returns>OriginViewModel</returns>
         [Produces("application/json", Type = typeof(OriginViewModel))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OriginViewModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(OriginViewModel))]
@@ -48,7 +45,7 @@ namespace GeoObservables.Api.Controllers
         /// POST Origin
         /// </summary>
         /// <param name="Origin"></param>
-        /// <returns></returns>
+        /// <returns>OriginViewModel</returns>
         [Produces("application/json", Type = typeof(OriginViewModel))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OriginViewModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(OriginViewModel))]
@@ -63,7 +60,7 @@ namespace GeoObservables.Api.Controllers
         /// Delete Origin
         /// </summary>
         /// <param name="idOri"></param>
-        /// <returns></returns>
+        /// <returns>bool</returns>
         [Produces("application/json", Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(bool))]
@@ -77,7 +74,7 @@ namespace GeoObservables.Api.Controllers
         /// PUT Origin
         /// </summary>
         /// <param name="origin"></param>
-        /// <returns></returns>
+        /// <returns>OriginViewModel</returns>
         [Produces("application/json", Type = typeof(OriginViewModel))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OriginViewModel))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(OriginViewModel))]
@@ -93,7 +90,7 @@ namespace GeoObservables.Api.Controllers
         /// GET All Origin
         /// </summary>
         /// <param></param>
-        /// <returns></returns>
+        /// <returns>List<OriginViewModel></returns>
         [Produces("application/json", Type = typeof(List<OriginViewModel>))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<OriginViewModel>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(List<OriginViewModel>))]
@@ -107,7 +104,7 @@ namespace GeoObservables.Api.Controllers
         /// Exist Origin
         /// </summary>
         /// <param name="idOri"></param>
-        /// <returns></returns>
+        /// <returns>bool</returns>
         [Produces("application/json", Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(bool))]
@@ -115,7 +112,7 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(bool))]
         [HttpGet("exist/{idOri}")]
-        public async Task<bool> ExistRol(int idOri) => await _originServices.ExistOrigin(idOri);
+        public async Task<bool> ExistRol(int idOri) => await _mediator.Send(new ExistOriginCommand { IdOrigin = idOri });
     }
 
 }

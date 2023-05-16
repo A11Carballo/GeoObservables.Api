@@ -18,4 +18,9 @@ namespace GeoObservables.Api.Commands.OriginCommands
         public int IdOrigin { get; set; }
     }
 
+    public class ExistOriginCommand : IRequest<bool>
+    {
+        public int IdOrigin { get; set; }
+    }
+
 }
