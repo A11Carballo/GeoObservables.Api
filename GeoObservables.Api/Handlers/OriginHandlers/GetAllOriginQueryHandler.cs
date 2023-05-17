@@ -6,11 +6,11 @@ using MediatR;
 
 namespace GeoObservables.Api.Handlers.OriginHandlers
 {
-    public class GetAllOriginQueryHandler : IRequestHandler<GetAllOriginQuery, List<OriginViewModel>>
+    public class GetAllUsersQueryHandler : IRequestHandler<GetAllOriginQuery, List<OriginViewModel>>
     {
         private readonly IOriginServices _originServices;
 
-        public GetAllOriginQueryHandler(IOriginServices originServices)
+        public GetAllUsersQueryHandler(IOriginServices originServices)
         {
             _originServices = originServices;
         }

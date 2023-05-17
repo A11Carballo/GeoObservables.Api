@@ -8,11 +8,11 @@ using MediatR;
 
 namespace GeoObservables.Api.Handlers.OriginHandlers
 {
-    public class CreateOriginCommandHandler : IRequestHandler<CreateOriginCommand, OriginViewModel>
+    public class CreateUsersCommandHandler : IRequestHandler<CreateOriginCommand, OriginViewModel>
     {
         private readonly IOriginServices _originServices;
 
-        public CreateOriginCommandHandler(IOriginServices originServices)
+        public CreateUsersCommandHandler(IOriginServices originServices)
         {
             _originServices = originServices;
         }

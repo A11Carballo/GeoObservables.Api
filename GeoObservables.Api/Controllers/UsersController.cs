@@ -1,7 +1,11 @@
 ﻿using GeoObservables.Api.Aplication.Contracts.Services;
 using GeoObservables.Api.Aplication.Services;
+using GeoObservables.Api.Commands.OriginCommands;
+using GeoObservables.Api.Commands.UsersCommands;
 using GeoObservables.Api.Mappers;
+using GeoObservables.Api.Queries;
 using GeoObservables.Api.ViewModels;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 
@@ -15,10 +19,13 @@ namespace GeoObservables.Api.Controllers
 
         private readonly IUsersServices _usersServices;
 
-        public UsersController(ILogger<UsersController> logger, IUsersServices usersServices)
+        private readonly IMediator _mediator;
+
+        public UsersController(ILogger<UsersController> logger, IUsersServices usersServices, IMediator mediator)
         {
             _logger = logger;
             _usersServices= usersServices;
+            _mediator = mediator;
         }
 
         //CRUD
@@ -36,7 +43,7 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(UsersViewModel))]
         [HttpGet("{idUser}")]
         public async Task<UsersViewModel> Get(int idUser) =>
-             UsersMapper.Map(await _usersServices.GetUser(idUser));
+             await _mediator.Send(new GetUsersQuery { IdUsers = idUser });
 
         /// <summary>
         /// POST User
@@ -50,8 +57,8 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(UsersViewModel))]
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(UsersViewModel))]
         [HttpPost]
-        public async Task<UsersViewModel> AddUsers([FromBody] UsersViewModel users) => 
-            UsersMapper.Map(await _usersServices.AddUser(UsersMapper.Map(users)));
+        public async Task<UsersViewModel> AddUsers([FromBody] UsersViewModel users) =>
+            await _mediator.Send(new CreateUsersCommand { Users = users });
 
         /// <summary>
         /// Delete User
@@ -65,7 +72,7 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(bool))]
         [HttpDelete("{idUser}")]
-        public async Task<bool> DeleteUser(int idUser) => await _usersServices.DeleteUser(idUser);
+        public async Task<bool> DeleteUser(int idUser) => await _mediator.Send(new DeleteUsersCommand { IdUsers = idUser }); 
 
         /// <summary>
         /// PUT User
@@ -80,8 +87,7 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(UsersViewModel))]
         [HttpPut]
         public async Task<UsersViewModel> UpdateUsers([FromBody] UsersViewModel users) =>
-            UsersMapper.Map(await _usersServices.UpdateUser(UsersMapper.Map(users)));
-
+                       await _mediator.Send(new UpdateUsersCommand { Users = users });
 
         /// <summary>
         /// GET All Users
@@ -95,8 +101,7 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(List<UsersViewModel>))]
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(List<UsersViewModel>))]
         [HttpGet]
-        public async Task<IActionResult> GetAllUsers() =>
-             Ok(await _usersServices.GetAllUsers());
+        public async Task<IActionResult> GetAllUsers() => Ok(await _mediator.Send(new GetAllUsersQuery()));
 
         /// <summary>
         /// Deactivate User
@@ -124,8 +129,7 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(bool))]
         [HttpGet("exist/{idUser}")]
-        public async Task<bool> ExistUsers(int idUser) => await _usersServices.ExistUsers(idUser);
-
+        public async Task<bool> ExistUsers(int idUser) => await _mediator.Send(new ExistUsersCommand { IdUsers = idUser }); 
     }
 
 }

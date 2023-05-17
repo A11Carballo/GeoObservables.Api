@@ -42,6 +42,7 @@ builder.Services.AddDbContext<GeoObservablesDBContext>(options => options.UseSql
 builder.Services.AddApplicationInsightsTelemetry(configuration);
 builder.Services.AddMediatR(typeof(HFlowdataController).Assembly);
 builder.Services.AddMediatR(typeof(OriginController).Assembly);
+builder.Services.AddMediatR(typeof(UsersController).Assembly);
 
 IoCRegister.AddRegistration(builder.Services);
 
