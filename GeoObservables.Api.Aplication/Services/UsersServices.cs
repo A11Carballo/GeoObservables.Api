@@ -30,17 +30,17 @@ namespace GeoObservables.Api.Aplication.Services
 
         public UsersServices(IUsersRepository usersRepository, IAppConfig appConfig, IRolesServices rolesServices, ILogger<UsersServices> logger)
         {
-            this._usersRepository = usersRepository;
+            _usersRepository = usersRepository;
 
-            this._appConfig = appConfig;
+            _appConfig = appConfig;
 
-            this._rolesServices = rolesServices;
+            _rolesServices = rolesServices;
 
-            this._maxTrys = _appConfig.MaxTrys();
+            _maxTrys = _appConfig.MaxTrys();
 
-            this._timeToWait = TimeSpan.FromSeconds(_appConfig.SecondsToWait());
+            _timeToWait = TimeSpan.FromSeconds(_appConfig.SecondsToWait());
 
-            this._logger = logger;
+            _logger = logger;
         }
 
         public async Task<UsersModel> GetUser(int idUser)
@@ -49,7 +49,7 @@ namespace GeoObservables.Api.Aplication.Services
 
             return await retryPolity.ExecuteAsync(async () =>
             {
-                this._logger.LogInformation($"GetUser {idUser} User");
+                _logger.LogInformation($"GetUser {idUser} User");
 
                 return UsersMapper.Map(await _usersRepository.Get(idUser));
             });
@@ -61,7 +61,7 @@ namespace GeoObservables.Api.Aplication.Services
 
             return await retryPolity.ExecuteAsync(async () =>
             {
-                this._logger.LogInformation($"Deactivate {mail} mail");
+                _logger.LogInformation($"Deactivate {mail} mail");
 
                 return UsersMapper.Map(await _usersRepository.Deactivate(mail));
             });
@@ -73,7 +73,7 @@ namespace GeoObservables.Api.Aplication.Services
 
             return await retryPolity.ExecuteAsync(async () =>
             {
-                this._logger.LogInformation($"AddUser {user} User");
+                _logger.LogInformation($"AddUser {user} User");
 
                 return UsersMapper.Map(await _usersRepository.Add(UsersMapper.Map(user)));
             });
@@ -85,7 +85,7 @@ namespace GeoObservables.Api.Aplication.Services
 
             return await retryPolity.ExecuteAsync(async () =>
             {
-                this._logger.LogInformation($"GetAllUsers");
+                _logger.LogInformation($"GetAllUsers");
 
                 return (await _usersRepository.GetAll()).Select(UsersMapper.Map);
             });
@@ -97,7 +97,7 @@ namespace GeoObservables.Api.Aplication.Services
 
             return await retryPolity.ExecuteAsync(async () =>
             {
-                this._logger.LogInformation($"UpdateUser {user} User");
+                _logger.LogInformation($"UpdateUser {user} User");
 
                 return UsersMapper.Map(await _usersRepository.Update(UsersMapper.Map(user)));
             });
@@ -109,7 +109,7 @@ namespace GeoObservables.Api.Aplication.Services
 
             return await retryPolity.ExecuteAsync(async () =>
             {
-                this._logger.LogInformation($"DeleteUser {idUser} User");
+                _logger.LogInformation($"DeleteUser {idUser} User");
 
                 return await _usersRepository.DeleteAsyncBool(idUser);
             });
@@ -131,14 +131,14 @@ namespace GeoObservables.Api.Aplication.Services
 
                     if (customPasswordHasher.VerifyPassword(user.Password, password))
                     {
-                        this._logger.LogInformation($"GetUserByMail {mail} mail");
+                        _logger.LogInformation($"GetUserByMail {mail} mail");
 
                         return user;
                     }
                     else
                     {
                         // Login Failed
-                        this._logger.LogInformation($"GetUserByMail {mail} mail --> Login Failed");
+                        _logger.LogInformation($"GetUserByMail {mail} mail --> Login Failed");
 
                         return null;
                     }
@@ -146,7 +146,7 @@ namespace GeoObservables.Api.Aplication.Services
                 catch (Exception e)
                 {
                     //Por si falla el mapper porque devuelva nullo el user o cualquier otro motivo.
-                    this._logger.LogInformation($"GetUserByMail {mail} mail --> Login Failed, mapper, null return...");
+                    _logger.LogInformation($"GetUserByMail {mail} mail --> Login Failed, mapper, null return...");
 
                     return null;
                 }
@@ -162,7 +162,7 @@ namespace GeoObservables.Api.Aplication.Services
 
             return await retryPolity.ExecuteAsync(async () =>
             {
-                this._logger.LogInformation($"CreateInternalUser {mail} mail and {password} password");
+                _logger.LogInformation($"CreateInternalUser {mail} mail and {password} password");
 
                 var customPasswordHasher = new CustomPasswordHasher();
 
@@ -195,20 +195,20 @@ namespace GeoObservables.Api.Aplication.Services
 
                     if (customPasswordHasher.VerifyPassword(user.Password, password))
                     {
-                        this._logger.LogInformation($"DeactivateInternalLogin {mail} mail and {password} password");
+                        _logger.LogInformation($"DeactivateInternalLogin {mail} mail and {password} password");
                         return UsersMapper.Map(await _usersRepository.Deactivate(mail));
                     }
                     else
                     {
                         // Verification Failed
-                        this._logger.LogInformation($"DeactivateInternalLogin {mail} mail and {password} password --> Verification Failed");
+                        _logger.LogInformation($"DeactivateInternalLogin {mail} mail and {password} password --> Verification Failed");
                         return null;
                     }
                 }
                 catch (Exception e)
                 {
                     //Por si falla el mapper porque devuelva nullo el user o cualquier otro motivo.
-                    this._logger.LogInformation($"DeactivateInternalLogin {mail} mail and {password} password --> Login Failed, mapper, null return...");
+                    _logger.LogInformation($"DeactivateInternalLogin {mail} mail and {password} password --> Login Failed, mapper, null return...");
                     return null;
                 }
 
@@ -221,7 +221,7 @@ namespace GeoObservables.Api.Aplication.Services
 
             return await retryPolity.ExecuteAsync(async () =>
             {
-                this._logger.LogInformation($"ExistUsers {idUser} mail");
+                _logger.LogInformation($"ExistUsers {idUser} mail");
 
                 return await _usersRepository.Exist(idUser);
             });
@@ -236,7 +236,7 @@ namespace GeoObservables.Api.Aplication.Services
             {
                 var UsersFilter = await _usersRepository.GetByFilter(filter);
 
-                this._logger.LogInformation($"GetByFilterUsers {filter} filter");
+                _logger.LogInformation($"GetByFilterUsers {filter} filter");
 
                 return UsersMapper.Map(UsersFilter.First());
             });

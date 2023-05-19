@@ -21,15 +21,15 @@ namespace GeoObservables.Api.Aplication.Services
         private readonly ILogger<RolesServices> _logger;
         public RolesServices(IRolesRepository rolesRepository, IAppConfig appConfig, ILogger<RolesServices> logger)
         {
-            this._rolesRepository = rolesRepository;
+           _rolesRepository = rolesRepository;
 
-            this._appConfig = appConfig;
+           _appConfig = appConfig;
 
-            this._maxTrys = _appConfig.MaxTrys();
+           _maxTrys = _appConfig.MaxTrys();
 
-            this._timeToWait = TimeSpan.FromSeconds(_appConfig.SecondsToWait());
+           _timeToWait = TimeSpan.FromSeconds(_appConfig.SecondsToWait());
 
-            this._logger = logger;
+           _logger = logger;
         }
 
         public async Task<RolesModel> AddRol(RolesModel rol)
@@ -40,7 +40,7 @@ namespace GeoObservables.Api.Aplication.Services
 
                 return await retryPolity.ExecuteAsync(async () =>
                 {
-                    this._logger.LogInformation($"AddRol {rol} Rol");
+                    _logger.LogInformation($"AddRol {rol} Rol");
 
                     return RolesMapper.Map(await this._rolesRepository.Add(RolesMapper.Map(rol)));
                 });
@@ -59,7 +59,7 @@ namespace GeoObservables.Api.Aplication.Services
 
                 return await retryPolity.ExecuteAsync(async () =>
                 {
-                    this._logger.LogInformation($"Getting {rol.Id} Rol");
+                    _logger.LogInformation($"Getting {rol.Id} Rol");
 
                     return await this._rolesRepository.DeleteAsyncBool(rol.Id);
                 });
@@ -78,7 +78,7 @@ namespace GeoObservables.Api.Aplication.Services
 
                 return await retryPolity.ExecuteAsync(async () =>
                 {
-                    this._logger.LogInformation($"Getting {idRolRequest} Rol");
+                    _logger.LogInformation($"Getting {idRolRequest} Rol");
 
                     return await this._rolesRepository.DeleteAsyncBool(idRolRequest);
                 });
@@ -97,7 +97,7 @@ namespace GeoObservables.Api.Aplication.Services
 
                 return await retryPolity.ExecuteAsync(async () =>
                 {
-                    this._logger.LogInformation($"GetAllRoles");
+                    _logger.LogInformation($"GetAllRoles");
 
                     return (await this._rolesRepository.GetAll()).Select(RolesMapper.Map);
                 });
@@ -116,7 +116,7 @@ namespace GeoObservables.Api.Aplication.Services
 
                 return await retryPolity.ExecuteAsync(async () =>
                 {
-                    this._logger.LogInformation($"Getting {idRol} Rol");
+                    _logger.LogInformation($"Getting {idRol} Rol");
 
                     return RolesMapper.Map(await this._rolesRepository.Get(idRol));
                 });
@@ -135,7 +135,7 @@ namespace GeoObservables.Api.Aplication.Services
 
                 return await retryPolity.ExecuteAsync(async () =>
                 {
-                    this._logger.LogInformation($"Getting {idRolRequest} Rol");
+                    _logger.LogInformation($"Getting {idRolRequest} Rol");
 
                     return RolesMapper.Map(await this._rolesRepository.Get(idRolRequest));
                 });
@@ -154,7 +154,7 @@ namespace GeoObservables.Api.Aplication.Services
 
                 return await retryPolity.ExecuteAsync(async () =>
                 {
-                    this._logger.LogInformation($"GetRolByRol {roll} Rol");
+                    ._logger.LogInformation($"GetRolByRol {roll} Rol");
 
                     return RolesMapper.Map(await this._rolesRepository.GetByRol(roll));
                 });
@@ -173,7 +173,7 @@ namespace GeoObservables.Api.Aplication.Services
 
                 return await retryPolity.ExecuteAsync(async () =>
                 {
-                    this._logger.LogInformation($"UpdateRol {rol} Rol");
+                    _logger.LogInformation($"UpdateRol {rol} Rol");
 
                     return (RolesMapper.Map(await this._rolesRepository.Update(RolesMapper.Map(rol))));
                 });
@@ -192,7 +192,7 @@ namespace GeoObservables.Api.Aplication.Services
 
                 return await retryPolity.ExecuteAsync(async () =>
                 {
-                    this._logger.LogInformation($"ExistRol {idRol} idRol");
+                    _logger.LogInformation($"ExistRol {idRol} idRol");
 
                     return await this._rolesRepository.Exist(idRol);
                 });
@@ -211,7 +211,7 @@ namespace GeoObservables.Api.Aplication.Services
 
                 return await retryPolity.ExecuteAsync(async () =>
                 {
-                    this._logger.LogInformation($"GetByFilterRol {filter} filter");
+                    _logger.LogInformation($"GetByFilterRol {filter} filter");
 
                     var RolesFilter = await this._rolesRepository.GetByFilter(filter);
 

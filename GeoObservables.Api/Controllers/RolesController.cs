@@ -4,6 +4,7 @@ using GeoObservables.Api.Mappers;
 using GeoObservables.Api.Request;
 using GeoObservables.Api.Response.Roles;
 using GeoObservables.Api.ViewModels;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GeoObservables.Api.Controllers
@@ -16,10 +17,13 @@ namespace GeoObservables.Api.Controllers
 
         private readonly IRolesServices _rolesServices;
 
-        public RolesController(ILogger<RolesController> logger, IRolesServices rolesServices)
+        private readonly IMediator _mediator;
+
+        public RolesController(ILogger<RolesController> logger, IRolesServices rolesServices, IMediator mediator)
         {
-            this._logger = logger;
-            this._rolesServices = rolesServices;
+            _logger = logger;
+            _rolesServices = rolesServices;
+            _mediator = mediator;
         }
 
         //CRUD

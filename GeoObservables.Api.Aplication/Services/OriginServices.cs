@@ -5,10 +5,8 @@ using GeoObservables.Api.Business.Models;
 using GeoObservables.Api.DataAccess.Contracts.Entities;
 using GeoObservables.Api.DataAccess.Contracts.Repositories;
 using GeoObservables.Api.DataAccess.Mappers;
-using GeoObservables.Api.DataAccess.Repositories;
 using Microsoft.Extensions.Logging;
 using Polly;
-using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 
 namespace GeoObservables.Api.Aplication.Services
 {
@@ -22,15 +20,15 @@ namespace GeoObservables.Api.Aplication.Services
 
         public OriginServices(IOriginRepository originRepository, IAppConfig appConfig, ILogger<OriginServices> logger)
         {
-            this._originRepository = originRepository;
+            _originRepository = originRepository;
 
-            this._appConfig = appConfig;
+            _appConfig = appConfig;
 
-            this._maxTrys = _appConfig.MaxTrys();
+            _maxTrys = _appConfig.MaxTrys();
 
-            this._timeToWait = TimeSpan.FromSeconds(_appConfig.SecondsToWait());
+            _timeToWait = TimeSpan.FromSeconds(_appConfig.SecondsToWait());
 
-            this._logger = logger;
+            _logger = logger;
         }
 
         public async Task<OriginModel> AddOrigin(OriginModel origin)
@@ -39,7 +37,7 @@ namespace GeoObservables.Api.Aplication.Services
 
             return await retryPolity.ExecuteAsync(async () =>
             {
-                this._logger.LogInformation($"AddOrigin {origin} origin");
+                _logger.LogInformation($"AddOrigin {origin} origin");
 
                 return OriginMapper.Map(await _originRepository.Add(OriginMapper.Map(origin)));
             });
@@ -51,7 +49,7 @@ namespace GeoObservables.Api.Aplication.Services
 
             return await retryPolity.ExecuteAsync(async () =>
             {
-                this._logger.LogInformation($"DeleteOrigin {idOrigin} idOrigin");
+                _logger.LogInformation($"DeleteOrigin {idOrigin} idOrigin");
 
                 return await _originRepository.DeleteAsyncBool(idOrigin);
             });
@@ -63,7 +61,7 @@ namespace GeoObservables.Api.Aplication.Services
 
             return await retryPolity.ExecuteAsync(async () =>
             {
-                this._logger.LogInformation($"GetAllOrigins");
+                _logger.LogInformation($"GetAllOrigins");
                 return (await _originRepository.GetAll()).Select(OriginMapper.Map);
             });
         }
@@ -74,7 +72,7 @@ namespace GeoObservables.Api.Aplication.Services
 
             return await retryPolity.ExecuteAsync(async () =>
             {
-                this._logger.LogInformation($"GetOrigin {idOrigin} idOrigin");
+                _logger.LogInformation($"GetOrigin {idOrigin} idOrigin");
 
                 return OriginMapper.Map(await _originRepository.Get(idOrigin));
             });
@@ -86,7 +84,7 @@ namespace GeoObservables.Api.Aplication.Services
 
             return await retryPolity.ExecuteAsync(async () =>
             {
-                this._logger.LogInformation($"UpdateOrigin {origin} origin");
+                _logger.LogInformation($"UpdateOrigin {origin} origin");
 
                 return (OriginMapper.Map(await _originRepository.Update(OriginMapper.Map(origin))));
             });
@@ -98,7 +96,7 @@ namespace GeoObservables.Api.Aplication.Services
 
             return await retryPolity.ExecuteAsync(async () =>
             {
-                this._logger.LogInformation($"ExistOrigin {idRol} idRol");
+                _logger.LogInformation($"ExistOrigin {idRol} idRol");
 
                 return await _originRepository.Exist(idRol);
             });
@@ -111,7 +109,7 @@ namespace GeoObservables.Api.Aplication.Services
 
             return await retryPolity.ExecuteAsync(async () =>
             {
-                this._logger.LogInformation($"GetByFilterOrigin {filter} filter");
+                _logger.LogInformation($"GetByFilterOrigin {filter} filter");
 
                 var OoriginFilter = await _originRepository.GetByFilter(filter);
 
