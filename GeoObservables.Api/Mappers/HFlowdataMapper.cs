@@ -24,6 +24,9 @@ namespace GeoObservables.Api.Mappers
 
         public static HFlowdataModel Map(HFlowdataViewModel dto)
         {
+            if (dto == null)
+                return new HFlowdataModel();
+
             return new HFlowdataModel()
             {
                 Id = dto.Id,

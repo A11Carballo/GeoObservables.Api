@@ -6,11 +6,11 @@ using MediatR;
 
 namespace GeoObservables.Api.Handlers.UsersHandlers
 {
-    public class CreateUsersCommandHandler : IRequestHandler<CreateUsersCommand, UsersViewModel>
+    public class CreateRolesCommandHandler : IRequestHandler<CreateUsersCommand, UsersViewModel>
     {
         private readonly IUsersServices _usersServices;
 
-        public CreateUsersCommandHandler(IUsersServices usersServices)
+        public CreateRolesCommandHandler(IUsersServices usersServices)
         {
             _usersServices = usersServices;
         }

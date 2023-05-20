@@ -4,7 +4,7 @@ using GeoObservables.Api.Mappers;
 using GeoObservables.Api.ViewModels;
 using MediatR;
 
-namespace GeoObservables.Api.Handlers.OUsersHandlers
+namespace GeoObservables.Api.Handlers.UsersHandlers
 {
     public class UpdateUsersCommandHandler : IRequestHandler<UpdateUsersCommand, UsersViewModel>
     {

@@ -8,7 +8,6 @@ using GeoObservables.Api.DataAccess.Contracts.Repositories;
 using GeoObservables.Api.DataAccess.Mappers;
 using Microsoft.Extensions.Logging;
 using Polly;
-using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 
 namespace GeoObservables.Api.Aplication.Services
 {
@@ -51,7 +50,7 @@ namespace GeoObservables.Api.Aplication.Services
             }
         }
 
-        public async Task<bool> DeleteRol(RolesModel rol)
+        public async Task<bool> DeleteRol(int idRol)
         {
             try
             {
@@ -59,9 +58,9 @@ namespace GeoObservables.Api.Aplication.Services
 
                 return await retryPolity.ExecuteAsync(async () =>
                 {
-                    _logger.LogInformation($"Getting {rol.Id} Rol");
+                    _logger.LogInformation($"Deletting {idRol} Rol");
 
-                    return await this._rolesRepository.DeleteAsyncBool(rol.Id);
+                    return await this._rolesRepository.DeleteAsyncBool(idRol);
                 });
             }
             catch (Exception ex)
@@ -70,24 +69,6 @@ namespace GeoObservables.Api.Aplication.Services
             }
         }
 
-        public async Task<bool> DeleteRolRequest(int idRolRequest)
-        {
-            try
-            {
-                var retryPolity = Policy.Handle<Exception>().WaitAndRetryAsync(_maxTrys, i => _timeToWait);
-
-                return await retryPolity.ExecuteAsync(async () =>
-                {
-                    _logger.LogInformation($"Getting {idRolRequest} Rol");
-
-                    return await this._rolesRepository.DeleteAsyncBool(idRolRequest);
-                });
-            }
-            catch (Exception ex)
-            {
-                throw new GeneralException(ex);
-            }
-        }
 
         public async Task<IEnumerable<RolesModel>> GetAllRoles()
         {
@@ -119,25 +100,6 @@ namespace GeoObservables.Api.Aplication.Services
                     _logger.LogInformation($"Getting {idRol} Rol");
 
                     return RolesMapper.Map(await this._rolesRepository.Get(idRol));
-                });
-            }
-            catch (Exception ex)
-            {
-                throw new GeneralException(ex);
-            }
-        }
-
-        public async Task<RolesModel> GetRolRequest(int idRolRequest)
-        {
-            try
-            {
-                var retryPolity = Policy.Handle<Exception>().WaitAndRetryAsync(_maxTrys, i => _timeToWait);
-
-                return await retryPolity.ExecuteAsync(async () =>
-                {
-                    _logger.LogInformation($"Getting {idRolRequest} Rol");
-
-                    return RolesMapper.Map(await this._rolesRepository.Get(idRolRequest));
                 });
             }
             catch (Exception ex)

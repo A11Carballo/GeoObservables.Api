@@ -1,11 +1,15 @@
 ﻿using GeoObservables.Api.Aplication.Contracts.Services;
 using GeoObservables.Api.Business.Exceptions;
+using GeoObservables.Api.Commands.RolesCommands;
+using GeoObservables.Api.Commands.UsersCommands;
 using GeoObservables.Api.Mappers;
+using GeoObservables.Api.Queries;
 using GeoObservables.Api.Request;
 using GeoObservables.Api.Response.Roles;
 using GeoObservables.Api.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 
 namespace GeoObservables.Api.Controllers
 {
@@ -40,19 +44,9 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(RolesViewModel))]
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(RolesViewModel))]
         [HttpGet("{IdRol}")]
-        public async Task<IActionResult> Get(int IdRol) 
-        {
-            try
-            {
-                var Response = new RolesResponse(RolesMapper.Map(await this._rolesServices.GetRol(IdRol)));
+        public async Task<RolesViewModel>Get(int IdRol) =>
+             await _mediator.Send(new GetRolesQuery { IdRoles = IdRol });
 
-                return Ok(Response);
-            }
-            catch (GeneralException ex)
-            {
-                return BadRequest(new RolesResponse(new List<RolesViewModel>(), ex));
-            }
-        }
 
         /// <summary>
         /// POST Rol
@@ -66,19 +60,8 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(RolesResponse))]
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(RolesResponse))]
         [HttpPost]
-        public async Task<IActionResult> AddRol([FromBody] RolesViewModel rol)
-        {
-            try
-            {
-                var Response = new RolesResponse(RolesMapper.Map(await this._rolesServices.AddRol(RolesMapper.Map(rol))));
-
-                return Ok(Response);
-            } 
-            catch (GeneralException ex)
-            {
-                return BadRequest(new RolesResponse(new List<RolesViewModel>(), ex));
-            }
-        }
+        public async Task<RolesViewModel> AddRol([FromBody] RolesViewModel rol) =>
+            await _mediator.Send(new CreateRolesCommand { Roles = rol });
 
         /// <summary>
         /// Delete Rol
@@ -92,19 +75,8 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(RolesBoolResponse))]
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(RolesBoolResponse))]
         [HttpDelete]
-        public async Task<IActionResult> DeleteRol([FromBody] RolesViewModel Rol)  
-        {
-            try
-            {
-                var Response = new RolesBoolResponse(await this._rolesServices.DeleteRol(RolesMapper.Map(Rol)));
+        public async Task<bool> DeleteRol([FromBody] RolesViewModel Rol) => await _mediator.Send(new DeleteRolesCommand { IdRoles = Rol.Id });  
 
-                return Ok(Response);
-            }
-            catch (GeneralException ex)
-            {
-                return BadRequest(new RolesBoolResponse(ex));
-            }
-        }
 
 
         /// <summary>
@@ -119,19 +91,8 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(RolesResponse))]
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(RolesResponse))]
         [HttpPut]
-        public async Task<IActionResult> UpdateRoles([FromBody] RolesViewModel rol)
-        {
-            try
-            {
-                var Response = new RolesResponse(RolesMapper.Map(await this._rolesServices.UpdateRol(RolesMapper.Map(rol))));
-
-                return Ok(Response);
-            }
-            catch(GeneralException ex)
-            {
-                return BadRequest(new RolesResponse(new List<RolesViewModel>(), ex));
-            }
-        }
+        public async Task<RolesViewModel> UpdateRoles([FromBody] RolesViewModel rol) =>
+                       await _mediator.Send(new UpdateRolesCommand { Roles = rol });
 
         /// <summary>
         /// GET All Roles
@@ -145,21 +106,8 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(List<RolesResponse>))]
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(List<RolesResponse>))]
         [HttpGet]
-        public async Task<IActionResult> GetAlRoless()
-        {
-            try
-            {
-                var Response = new RolesResponse((await this._rolesServices.GetAllRoles()).Select(x => RolesMapper.Map(x)).ToList());
+        public async Task<IActionResult> GetAllRoless() => Ok(await _mediator.Send(new GetAllRolesQuery()));
 
-                return Ok(Response);
-            }
-            catch (GeneralException ex)
-            {
-                return BadRequest(new RolesResponse(new List<RolesViewModel>(), ex));
-            }
-        }
-
-        //Request
 
         /// <summary>
         /// Exist Rol
@@ -173,98 +121,7 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(RolesBoolResponse))]
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(RolesBoolResponse))]
         [HttpGet("requestExit/")]
-        public async Task<IActionResult> ExistRol([FromBody] RolesRequest RolRequest)
-        {
-            try
-            {
-                var Response = new RolesBoolResponse(await this._rolesServices.ExistRol(RolRequest.Id));
-
-                return Ok(Response);
-            }
-            catch (GeneralException ex)
-            {
-                return BadRequest(new RolesBoolResponse(ex));
-            }
-        }
-
-        /// <summary>
-        /// Delete Rol Request
-        /// </summary>
-        /// <param name="RolRequest"></param>
-        /// <returns></returns>
-        [Produces("application/json", Type = typeof(RolesBoolResponse))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RolesBoolResponse))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(RolesBoolResponse))]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(RolesBoolResponse))]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(RolesBoolResponse))]
-        [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(RolesBoolResponse))]
-        [HttpDelete("request/")]
-        public async Task<IActionResult> DeleteRolRequest([FromBody] RolesRequest RolRequest)  
-        {
-            try
-            {
-                var Response = new RolesBoolResponse(await this._rolesServices.DeleteRolRequest(RolRequest.Id));
-
-                return Ok(Response);
-            }
-            catch (GeneralException ex)
-            {
-                return BadRequest(new RolesBoolResponse(ex));
-            }
-        }
-
-        /// <summary>
-        /// GET Rol Request
-        /// </summary>
-        /// <param name="RolRequest"></param>
-        /// <returns></returns>
-        [Produces("application/json", Type = typeof(RolesResponse))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RolesResponse))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(RolesResponse))]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(RolesResponse))]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(RolesResponse))]
-        [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(RolesResponse))]
-        [HttpGet("request/{RolRequest}")]
-        public async Task<IActionResult> GetRequest([FromBody] RolesRequest RolRequest)
-        {
-            try
-            {
-                var Response = new RolesResponse(RolesMapper.Map(await this._rolesServices.GetRolRequest(RolRequest.Id)));
-
-                return Ok(Response);
-            }
-            catch (GeneralException ex)
-            {
-                return BadRequest(new RolesResponse(new List<RolesViewModel>(), ex));
-            }
-        }
-        
-
-        /// <summary>
-        /// GET Rol By Rol Request
-        /// </summary>
-        /// <param name="RolesRolRequest"></param>
-        /// <returns></returns>
-        [Produces("application/json", Type = typeof(RolesResponse))]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(RolesResponse))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(RolesResponse))]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(RolesResponse))]
-        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(RolesResponse))]
-        [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(RolesResponse))]
-        [HttpGet("rolbyrolrequest/{RolesRolRequest}")]
-        public async Task<IActionResult> GetRolByRolRequest([FromBody] RolesRolRequest RolbyRolRequest)
-        {
-            try
-            {
-                var Response = new RolesResponse(RolesMapper.Map(await this._rolesServices.GetRolByRol(RolbyRolRequest.Role)));
-
-                return Ok(Response);
-            }
-            catch (GeneralException ex)
-            {
-                return BadRequest(new RolesResponse(new List<RolesViewModel>(), ex));
-            }
-        }
+        public async Task<bool> ExistRol([FromBody] RolesRequest RolRequest) => await _mediator.Send(new ExistRolesCommand { IdRoles = RolRequest.Id }); 
             
     }
 

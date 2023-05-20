@@ -15,8 +15,8 @@ namespace GeoObservables.Api.ViewModels
         public double Hflow { get; set; }
         public int idOrigin { get; set; }
         public string Description { get; set; }
-        public int Datacreated { get; set; }
-        public int Datamodified { get; set; }
+        public DateTime Datacreated { get; set; }
+        public DateTime Datamodified { get; set; }
         public int idUserCreate { get; set; }
     }
 }
