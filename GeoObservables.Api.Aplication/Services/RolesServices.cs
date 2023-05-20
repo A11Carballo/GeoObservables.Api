@@ -154,7 +154,7 @@ namespace GeoObservables.Api.Aplication.Services
 
                 return await retryPolity.ExecuteAsync(async () =>
                 {
-                    ._logger.LogInformation($"GetRolByRol {roll} Rol");
+                    _logger.LogInformation($"GetRolByRol {roll} Rol");
 
                     return RolesMapper.Map(await this._rolesRepository.GetByRol(roll));
                 });

@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Text;
 using GeoObservables.Api.Config;
 using GeoObservables.Api.Controllers;
@@ -40,9 +41,7 @@ builder.Services.AddScoped<IGeoObservablesDBContext, GeoObservablesDBContext>();
 
 builder.Services.AddDbContext<GeoObservablesDBContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddApplicationInsightsTelemetry(configuration);
-builder.Services.AddMediatR(typeof(HFlowdataController).Assembly);
-builder.Services.AddMediatR(typeof(OriginController).Assembly);
-builder.Services.AddMediatR(typeof(UsersController).Assembly);
+builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 
 IoCRegister.AddRegistration(builder.Services);
 
