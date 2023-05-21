@@ -32,7 +32,7 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(UsersViewModel))]
         [HttpGet("{idUser}")]
         public async Task<UsersViewModel> Get(int idUser) =>
-             await _mediator.Send(new GetUsersQuery { IdUsers = idUser }));
+             await _mediator.Send(new GetUsersQuery { IdUsers = idUser });
 
         /// <summary>
         /// POST User
