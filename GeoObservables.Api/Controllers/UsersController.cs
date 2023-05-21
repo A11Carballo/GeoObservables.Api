@@ -1,7 +1,4 @@
-﻿using GeoObservables.Api.Aplication.Contracts.Services;
-using GeoObservables.Api.Aplication.Services;
-using GeoObservables.Api.Commands.OriginCommands;
-using GeoObservables.Api.Commands.UsersCommands;
+﻿using GeoObservables.Api.Commands.UsersCommands;
 using GeoObservables.Api.Mappers;
 using GeoObservables.Api.Queries;
 using GeoObservables.Api.ViewModels;
@@ -17,14 +14,11 @@ namespace GeoObservables.Api.Controllers
     {
         private readonly ILogger<UsersController> _logger;
 
-        private readonly IUsersServices _usersServices;
-
         private readonly IMediator _mediator;
 
-        public UsersController(ILogger<UsersController> logger, IUsersServices usersServices, IMediator mediator)
+        public UsersController(ILogger<UsersController> logger, IMediator mediator)
         {
             _logger = logger;
-            _usersServices= usersServices;
             _mediator = mediator;
         }
 
@@ -115,7 +109,7 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(bool))]
         [HttpPut("Deactivate/{mail}")]
-        public async Task<UsersViewModel> DeactivateUser(string mail) => UsersMapper.Map(await _usersServices.Deactivate(mail));
+        public async Task<UsersViewModel> DeactivateUser(string mail) => await _mediator.Send(new DeactivateUsersCommand { Mail = mail });
 
         /// <summary>
         /// Exist User

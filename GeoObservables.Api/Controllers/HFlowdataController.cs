@@ -15,12 +15,9 @@ namespace GeoObservables.Api.Controllers
 
         private readonly IMediator _mediator;
 
-        private readonly IHFlowdataServices _hFlowdataServices;
-
-        public HFlowdataController(ILogger<HFlowdataController> logger, IHFlowdataServices hFlowdataServices, IMediator mediator)
+        public HFlowdataController(ILogger<HFlowdataController> logger, IMediator mediator)
         {
             _logger = logger;
-            _hFlowdataServices = hFlowdataServices;
             _mediator = mediator;
         }
 

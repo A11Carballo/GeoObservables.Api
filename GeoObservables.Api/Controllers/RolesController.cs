@@ -1,15 +1,10 @@
-﻿using GeoObservables.Api.Aplication.Contracts.Services;
-using GeoObservables.Api.Business.Exceptions;
-using GeoObservables.Api.Commands.RolesCommands;
-using GeoObservables.Api.Commands.UsersCommands;
-using GeoObservables.Api.Mappers;
+﻿using GeoObservables.Api.Commands.RolesCommands;
 using GeoObservables.Api.Queries;
 using GeoObservables.Api.Request;
 using GeoObservables.Api.Response.Roles;
 using GeoObservables.Api.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 
 namespace GeoObservables.Api.Controllers
 {
@@ -19,14 +14,11 @@ namespace GeoObservables.Api.Controllers
     {
         private readonly ILogger<RolesController> _logger;
 
-        private readonly IRolesServices _rolesServices;
-
         private readonly IMediator _mediator;
 
-        public RolesController(ILogger<RolesController> logger, IRolesServices rolesServices, IMediator mediator)
+        public RolesController(ILogger<RolesController> logger, IMediator mediator)
         {
             _logger = logger;
-            _rolesServices = rolesServices;
             _mediator = mediator;
         }
 
@@ -76,7 +68,6 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(RolesBoolResponse))]
         [HttpDelete]
         public async Task<bool> DeleteRol([FromBody] RolesViewModel Rol) => await _mediator.Send(new DeleteRolesCommand { IdRoles = Rol.Id });  
-
 
 
         /// <summary>

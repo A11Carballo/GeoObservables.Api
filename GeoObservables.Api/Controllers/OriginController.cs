@@ -1,5 +1,4 @@
-﻿using GeoObservables.Api.Aplication.Contracts.Services;
-using GeoObservables.Api.Commands.OriginCommands;
+﻿using GeoObservables.Api.Commands.OriginCommands;
 using GeoObservables.Api.Queries;
 using GeoObservables.Api.ViewModels;
 using MediatR;
@@ -13,14 +12,11 @@ namespace GeoObservables.Api.Controllers
     {
         private readonly ILogger<OriginController> _logger;
 
-        private readonly IOriginServices _originServices;
-
         private readonly IMediator _mediator;
 
-        public OriginController(ILogger<OriginController> logger, IOriginServices originServices, IMediator mediator)
+        public OriginController(ILogger<OriginController> logger, IMediator mediator)
         {
             _logger = logger;
-            _originServices = originServices;
             _mediator = mediator;
         }
 

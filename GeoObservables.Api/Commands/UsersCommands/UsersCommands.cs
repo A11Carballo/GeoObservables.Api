@@ -22,5 +22,9 @@ namespace GeoObservables.Api.Commands.UsersCommands
     {
         public int IdUsers { get; set; }
     }
+    public class DeactivateUsersCommand : IRequest<UsersViewModel>
+    {
+        public string Mail { get; set; }
+    }
 
 }
