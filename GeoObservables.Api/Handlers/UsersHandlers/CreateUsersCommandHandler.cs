@@ -10,13 +10,18 @@ namespace GeoObservables.Api.Handlers.UsersHandlers
     {
         private readonly IUsersServices _usersServices;
 
-        public CreateRolesCommandHandler(IUsersServices usersServices)
+        private readonly ILogger<CreateRolesCommandHandler> _logger;
+
+        public CreateRolesCommandHandler(IUsersServices usersServices, ILogger<CreateRolesCommandHandler> logger)
         {
             _usersServices = usersServices;
+            _logger = logger;   
         }
 
         public async Task<UsersViewModel> Handle(CreateUsersCommand request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation($"CreateUsersCommand has been called.");
+
             return UsersMapper.Map(await _usersServices.AddUser(UsersMapper.Map(request.Users)));
         }
     }

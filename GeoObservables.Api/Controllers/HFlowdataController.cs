@@ -11,13 +11,10 @@ namespace GeoObservables.Api.Controllers
     [Route("api/[controller]")]
     public class HFlowdataController : Controller
     {
-        private readonly ILogger<HFlowdataController> _logger;
-
         private readonly IMediator _mediator;
 
-        public HFlowdataController(ILogger<HFlowdataController> logger, IMediator mediator)
+        public HFlowdataController(IMediator mediator)
         {
-            _logger = logger;
             _mediator = mediator;
         }
 

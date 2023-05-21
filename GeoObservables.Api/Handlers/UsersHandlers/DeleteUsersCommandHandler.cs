@@ -8,13 +8,18 @@ namespace GeoObservables.Api.Handlers.UsersHandlers
     {
         private readonly IUsersServices _usersServices;
 
-        public DeleteUsersCommandHandler(IUsersServices usersServices)
+        private readonly ILogger<DeleteUsersCommandHandler> _logger;
+
+        public DeleteUsersCommandHandler(IUsersServices usersServices, ILogger<DeleteUsersCommandHandler> logger)
         {
             _usersServices = usersServices;
+            _logger = logger;
         }
 
         public async Task<bool> Handle(DeleteUsersCommand request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation($"DeleteUsersCommand has been called.");
+
             return await _usersServices.DeleteUser(request.IdUsers);
         }
     }

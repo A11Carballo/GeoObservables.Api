@@ -12,13 +12,10 @@ namespace GeoObservables.Api.Controllers
     [Route("api/[controller]")]
     public class RolesController : Controller
     {
-        private readonly ILogger<RolesController> _logger;
-
         private readonly IMediator _mediator;
 
-        public RolesController(ILogger<RolesController> logger, IMediator mediator)
+        public RolesController(IMediator mediator)
         {
-            _logger = logger;
             _mediator = mediator;
         }
 

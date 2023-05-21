@@ -2,7 +2,6 @@
 using System.Security.Claims;
 using GeoObservables.Api.Aplication.Contracts.Configuration;
 using GeoObservables.Api.Aplication.Contracts.Services;
-using GeoObservables.Api.Business.Models;
 using GeoObservables.Api.Mappers;
 using GeoObservables.Api.ViewModels;
 using Microsoft.AspNetCore.Mvc;

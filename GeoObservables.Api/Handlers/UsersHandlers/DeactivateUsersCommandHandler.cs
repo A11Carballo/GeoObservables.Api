@@ -10,13 +10,18 @@ namespace GeoObservables.Api.Handlers.UsersHandlers
     {
         private readonly IUsersServices _usersServices;
 
-        public DeactivateUsersCommandHandler(IUsersServices usersServices)
+        private readonly ILogger<DeactivateUsersCommandHandler> _logger;
+
+        public DeactivateUsersCommandHandler(IUsersServices usersServices, ILogger<DeactivateUsersCommandHandler> logger)
         {
             _usersServices = usersServices;
+            _logger = logger;
         }
 
         public async Task<UsersViewModel> Handle(DeactivateUsersCommand request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation($"DeactivateUsersCommand has been called.");
+
             return UsersMapper.Map(await _usersServices.Deactivate(request.Mail));
         }
     }

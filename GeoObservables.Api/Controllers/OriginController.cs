@@ -10,13 +10,10 @@ namespace GeoObservables.Api.Controllers
     [Route("api/[controller]")]
     public class OriginController : Controller
     {
-        private readonly ILogger<OriginController> _logger;
-
         private readonly IMediator _mediator;
 
-        public OriginController(ILogger<OriginController> logger, IMediator mediator)
+        public OriginController(IMediator mediator)
         {
-            _logger = logger;
             _mediator = mediator;
         }
 

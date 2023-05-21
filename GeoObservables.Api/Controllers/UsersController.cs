@@ -1,10 +1,8 @@
 ﻿using GeoObservables.Api.Commands.UsersCommands;
-using GeoObservables.Api.Mappers;
 using GeoObservables.Api.Queries;
 using GeoObservables.Api.ViewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 
 namespace GeoObservables.Api.Controllers
 {
@@ -12,13 +10,10 @@ namespace GeoObservables.Api.Controllers
     [Route("api/[controller]")]
     public class UsersController : Controller
     {
-        private readonly ILogger<UsersController> _logger;
-
         private readonly IMediator _mediator;
 
-        public UsersController(ILogger<UsersController> logger, IMediator mediator)
+        public UsersController(IMediator mediator)
         {
-            _logger = logger;
             _mediator = mediator;
         }
 
@@ -37,7 +32,7 @@ namespace GeoObservables.Api.Controllers
         [ProducesResponseType(StatusCodes.Status408RequestTimeout, Type = typeof(UsersViewModel))]
         [HttpGet("{idUser}")]
         public async Task<UsersViewModel> Get(int idUser) =>
-             await _mediator.Send(new GetUsersQuery { IdUsers = idUser });
+             await _mediator.Send(new GetUsersQuery { IdUsers = idUser }));
 
         /// <summary>
         /// POST User

@@ -8,13 +8,18 @@ namespace GeoObservables.Api.Handlers.UsersHandlers
     {
         private readonly IUsersServices _usersServices;
 
-        public ExistUsersCommandHandler(IUsersServices usersServices)
+        private readonly ILogger<ExistUsersCommandHandler> _logger;
+
+        public ExistUsersCommandHandler(IUsersServices usersServices, ILogger<ExistUsersCommandHandler> logger)
         {
             _usersServices = usersServices;
+            _logger = logger;   
         }
 
         public async Task<bool> Handle(ExistUsersCommand request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation($"ExistUsersCommandHandler has been called.");
+
             return await _usersServices.ExistUsers(request.IdUsers);
         }
     }
