@@ -10,13 +10,18 @@ namespace GeoObservables.Api.Handlers.RolesHandlers
     {
         private readonly IRolesServices _rolesServices;
 
-        public UpdateRolesCommandHandler(IRolesServices rolesServices)
+        private readonly ILogger<UpdateRolesCommandHandler> _logger;
+
+        public UpdateRolesCommandHandler(IRolesServices rolesServices, ILogger<UpdateRolesCommandHandler> logger)
         {
             _rolesServices = rolesServices;
+            _logger = logger;
         }
 
         public async Task<RolesViewModel> Handle(UpdateRolesCommand request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation($"UpdateRolesCommandHandler has been called.");
+
             return RolesMapper.Map(await _rolesServices.UpdateRol(RolesMapper.Map(request.Roles)));
         }
     }

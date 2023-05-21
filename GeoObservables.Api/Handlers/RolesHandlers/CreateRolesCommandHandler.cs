@@ -10,13 +10,18 @@ namespace GeoObservables.Api.Handlers.RolesHandlers
     {
         private readonly IRolesServices _rolesServices;
 
-        public CreateRolesCommandHandler(IRolesServices rolesServices)
+        private readonly ILogger<CreateRolesCommandHandler> _logger;
+
+        public CreateRolesCommandHandler(IRolesServices rolesServices, ILogger<CreateRolesCommandHandler> logger)
         {
             _rolesServices = rolesServices;
+            _logger = logger;
         }
 
         public async Task<RolesViewModel> Handle(CreateRolesCommand request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation($"CreateRolesCommandHandler has been called.");
+
             return RolesMapper.Map(await _rolesServices.AddRol(RolesMapper.Map(request.Roles)));
         }
     }

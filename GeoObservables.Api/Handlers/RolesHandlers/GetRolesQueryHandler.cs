@@ -10,13 +10,18 @@ namespace GeoObservables.Api.Handlers.RolesHandlers
     {
         private readonly IRolesServices _rolesServices;
 
-        public GetRolesQueryHandler(IRolesServices rolesServices)
+        private readonly ILogger<GetRolesQueryHandler> _logger;
+
+        public GetRolesQueryHandler(IRolesServices rolesServices, ILogger<GetRolesQueryHandler> logger)
         {
             _rolesServices = rolesServices;
+            _logger = logger;
         }
 
         public async Task<RolesViewModel> Handle(GetRolesQuery request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation($"GetRolesQuery has been called.");
+
             return RolesMapper.Map(await _rolesServices.GetRol(request.IdRoles));
         }
     }

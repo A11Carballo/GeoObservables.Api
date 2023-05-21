@@ -8,13 +8,18 @@ namespace GeoObservables.Api.Handlers.RolesHandlers
     {
         private readonly IRolesServices _rolesServices;
 
-        public ExistRolesCommandHandler(IRolesServices rolesServices)
+        private readonly ILogger<ExistRolesCommandHandler> _logger;
+
+        public ExistRolesCommandHandler(IRolesServices rolesServices, ILogger<ExistRolesCommandHandler> logger)
         {
             _rolesServices = rolesServices;
+            _logger = logger;
         }
 
         public async Task<bool> Handle(ExistRolesCommand request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation($"ExistRolesCommandHandler has been called.");
+
             return await _rolesServices.ExistRol(request.IdRoles);
         }
     }
