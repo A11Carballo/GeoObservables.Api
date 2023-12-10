@@ -5,8 +5,10 @@ using GeoObservables.Api.Controllers;
 using GeoObservables.Api.CrosssCutting.Register;
 using GeoObservables.Api.DataAccess;
 using GeoObservables.Api.DataAccess.Contracts;
+using HealthChecks.UI.Client;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -43,6 +45,10 @@ builder.Services.AddDbContext<GeoObservablesDBContext>(options => options.UseSql
 builder.Services.AddApplicationInsightsTelemetry(configuration);
 builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 
+builder.Services.AddHealthChecks();
+
+builder.Services.AddHealthChecksUI().AddInMemoryStorage();
+
 IoCRegister.AddRegistration(builder.Services);
 
 SwaggerConfig.AddRegistration(builder.Services);
@@ -72,6 +78,14 @@ if (app.Environment.IsDevelopment())
 {
     SwaggerConfig.AddRegistration(app, builder);
 }
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHealthChecks("/health", new HealthCheckOptions()
+    {
+        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+    });
+});
 
 app.UseDispatcherMiddleware();
 
